@@ -1,0 +1,42 @@
+---
+title: "Setup"
+format: html
+editor: source
+---
+
+## Software Setup
+
+### 1. Install Git
+
+Follow these steps to [install Git for your Operating system](https://happygitwithr.com/install-git.html) (Windows, MacOS, or Linux).
+
+### 2. Create a GitHub account
+
+Follow all the steps requested by <https://github.com/> to create your GitHub account.
+
+### 3. Fork a repository
+
+- Go to <https://github.com/samclifford/2491_eda>
+
+- Click to the `Fork` button in the top right corner.
+
+> If needed, follow these seven steps to [fork a repository](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo?tool=webui#forking-a-repository).
+
+### 4. Clone a repository
+
+- Clone the github repository either via RStudio or command line git:
+
+```bash
+git clone https://github.com/<your user name>/2491_eda
+```
+
+> If needed, follow these seven steps to [clone your forked repository](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo?tool=webui#cloning-your-forked-repository)
+
+> If you use RStudio projects, follow these four steps to [create a New Project using Version Control](https://www.epirhandbook.com/en/version-control-and-collaboration-with-git-and-github.html?q=clone#in-rstudio)
+
+### 5. Install R packages
+
+```r
+install.packages("tidyverse")
+install.packages("mosaicData")
+```
