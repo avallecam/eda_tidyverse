@@ -40,3 +40,5 @@ git clone https://github.com/<your user name>/2491_eda
 install.packages("tidyverse")
 install.packages("mosaicData")
 ```
+
+To use the operator called **pipe**, which looks like `%>%`, insert it by using the keyboard shortcut <kbd>Shift+Cmd+M</kbd> (Mac) or <kbd>Shift+Ctrl+M</kbd> (Windows).
