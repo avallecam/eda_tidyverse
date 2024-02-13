@@ -8,7 +8,7 @@
 <link href="slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="slides_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="slides_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.353">
+  <meta name="generator" content="quarto-1.3.433">
 
   <title>Exploratory data analysis using the tidyverse and ggplot2</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -98,6 +98,8 @@
   <link href="slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="slides_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
   <link href="slides_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
@@ -383,6 +385,12 @@
       margin-right: 0; 
     }
   </style>
+  <style>
+  .reveal .slide-logo {
+    max-height: unset;
+    height: 100px;
+  }
+  </style>
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -395,30 +403,41 @@
 </div>
 
 </section>
-<section id="introduction" class="slide level2">
-<h2>Introduction</h2>
+<section>
+<section id="introduction" class="title-slide slide level1 center">
+<h1>Introduction</h1>
+
 </section>
-<section id="tidyverse" class="slide level2">
-<h2>Tidyverse</h2>
+<section id="what-is-the-tidyverse" class="slide level2">
+<h2>What is the tidyverse?</h2>
+<p>A suite of R packages to make working with data as easy as possible (Wickham 2020), including:</p>
 <ul>
-<li>Suite of R packages to make working with data as easy as possible (Wickham 2020), including</li>
 <li>ggplot2: for plotting data</li>
 <li>dplyr: for manipulating data frames</li>
 <li>tidyr: for making data tidy</li>
 <li>forcats: for manipulating factor variables</li>
-<li>magrittr: for easy chaining of commands (Wickham and Grolemund 2017; Wickham et al.&nbsp;2019)</li>
+<li>magrittr: for easy chaining of commands</li>
 </ul>
+<p>(Wickham and Grolemund 2017; Wickham et al.&nbsp;2019)</p>
+</section></section>
+<section>
+<section id="summarising-data" class="title-slide slide level1 center">
+<h1>Summarising data</h1>
+
 </section>
-<section id="summarising-data" class="slide level2">
+<section id="summarising-data-1" class="slide level2 smaller">
 <h2>Summarising data</h2>
 <ul>
 <li>Summary statistics one of most common data analysis tasks</li>
-<li>Consider the Gestation data from mosaicData Birth weight, date, and gestational period collected as part of the Child Health and Development Studies in 1961 and 1962. Information about the baby’s parents — age, education, height, weight, and whether the mother smoked is also recorded (Nolan and Speed 2001).</li>
+<li>Consider the <code>Gestation</code> data from <code>mosaicData</code></li>
+</ul>
+<p>Birth weight, date, and gestational period collected as part of the Child Health and Development Studies in 1961 and 1962. Information about the baby’s parents — age, education, height, weight, and whether the mother smoked is also recorded (Nolan and Speed 2001).</p>
+<ul>
 <li>We will use some functions from dplyr to choose, group and summarise data</li>
-<li>verb(.data, …) applies a dplyr verb to a data frame</li>
+<li><code>verb(.data, ...)</code> applies a dplyr verb to a data frame</li>
 </ul>
 </section>
-<section id="summarising-data-1" class="slide level2">
+<section id="summarising-data-2" class="slide level2">
 <h2>Summarising data</h2>
 <ul>
 <li>count how many babies in data set</li>
@@ -426,12 +445,15 @@
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(mosaicData) </span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(tidyverse) </span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">data</span>(Gestation) </span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">count</span>(Gestation) <span class="co"># just like nrow() </span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="do">## # A tibble: 1 × 1 </span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="do">##       n </span></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="do">##   &lt;int&gt; </span></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="do">## 1  1236</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">data</span>(Gestation) </span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">count</span>(Gestation) <span class="co"># just like nrow() </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+      n
+  &lt;int&gt;
+1  1236</code></pre>
+</div>
 </div>
 </section>
 <section id="summarising-grouped-data" class="slide level2">
@@ -440,19 +462,21 @@
 <li>Can also count for a given grouping variable</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">count</span>(Gestation, race) <span class="co"># nrow can't do this </span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="do">## # A tibble: 6 × 2 </span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="do">##   race      n </span></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="do">##   &lt;chr&gt; &lt;int&gt; </span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="do">## 1 asian    44 </span></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="do">## 2 black   244 </span></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="do">## 3 mex      40 </span></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="do">## 4 mixed    25 </span></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="do">## 5 white   870 </span></span>
-<span id="cb2-10"><a href="#cb2-10"></a><span class="do">## 6 &lt;NA&gt;     13</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">count</span>(Gestation, race) <span class="co"># nrow can't do this </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  race      n
+  &lt;chr&gt; &lt;int&gt;
+1 asian    44
+2 black   244
+3 mex      40
+4 mixed    25
+5 white   870
+6 &lt;NA&gt;     13</code></pre>
+</div>
 </div>
 </section>
-<section id="summarising-data-2" class="slide level2">
+<section id="summarising-data-3" class="slide level2">
 <h2>Summarising data</h2>
 <ul>
 <li>The summarise function allows us to calculate summary statistics of a variable</li>
@@ -460,155 +484,201 @@
 <li>Calculate the mean birth weight in the data set</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">summarise</span>(Gestation, <span class="at">wt_mean =</span> <span class="fu">mean</span>(wt)) </span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="do">## # A tibble: 1 × 1 </span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="do">##   wt_mean </span></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="do">##     &lt;dbl&gt; ## 1    120.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">summarise</span>(Gestation, <span class="at">wt_mean =</span> <span class="fu">mean</span>(wt)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  wt_mean
+    &lt;dbl&gt;
+1    120.</code></pre>
 </div>
-</section>
-<section id="summarising-data-3" class="slide level2">
-<h2>Summarising data</h2>
-<ul>
-<li>We can calculate multiple summaries at once</li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">summarise</span>(Gestation,           </span>
-<span id="cb4-2"><a href="#cb4-2"></a>          <span class="at">Mean =</span> <span class="fu">mean</span>(wt), </span>
-<span id="cb4-3"><a href="#cb4-3"></a>          <span class="at">SD   =</span> <span class="fu">sd</span>(wt), </span>
-<span id="cb4-4"><a href="#cb4-4"></a>          <span class="at">Low  =</span> <span class="fu">quantile</span>(wt, <span class="fl">0.025</span>), </span>
-<span id="cb4-5"><a href="#cb4-5"></a>          <span class="at">High =</span> <span class="fu">quantile</span>(wt, <span class="fl">0.975</span>)) </span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="do">## # A tibble: 1 × 4 </span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="do">##    Mean    SD   Low  High </span></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="do">##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; </span></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="do">## 1  120.  18.2    81   155</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="summarising-grouped-data-1" class="slide level2">
-<h2>Summarising grouped data</h2>
-<ul>
-<li>We can group the rows in our data and calculate summaries for each group</li>
-<li>group_by lets us pass variable names to set the structure</li>
-<li>Row order is maintained</li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>Gestation_grouped_by_race <span class="ot">&lt;-</span> <span class="fu">group_by</span>(Gestation, race) </span>
-<span id="cb5-2"><a href="#cb5-2"></a>Gestation_grouped_by_race </span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="do">## # A tibble: 1,236 × 23 </span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="do">## # Groups:   race [6] </span></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="do">##       id pluralty   outcome  date       gestation sex      wt parity race    age </span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="do">##    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;    &lt;date&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; </span></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="do">##  1    15 single fe… live bi… 1964-11-11       284 male    120      1 asian    27 </span></span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="do">##  2    20 single fe… live bi… 1965-02-07       282 male    113      2 white    33 </span></span>
-<span id="cb5-9"><a href="#cb5-9"></a><span class="do">##  3    58 single fe… live bi… 1965-04-25       279 male    128      1 white    28 </span></span>
-<span id="cb5-10"><a href="#cb5-10"></a><span class="do">##  4    61 single fe… live bi… 1965-02-12        NA male    123      2 white    36 </span></span>
-<span id="cb5-11"><a href="#cb5-11"></a><span class="do">##  5    72 single fe… live bi… 1964-11-25       282 male    108      1 white    23 </span></span>
-<span id="cb5-12"><a href="#cb5-12"></a><span class="do">##  6   100 single fe… live bi… 1965-07-31       286 male    136      4 white    25 </span></span>
-<span id="cb5-13"><a href="#cb5-13"></a><span class="do">##  7   102 single fe… live bi… 1964-12-19       244 male    138      4 black    33 </span></span>
-<span id="cb5-14"><a href="#cb5-14"></a><span class="do">##  8   129 single fe… live bi… 1965-04-11       245 male    132      2 black    23 </span></span>
-<span id="cb5-15"><a href="#cb5-15"></a><span class="do">##  9   142 single fe… live bi… 1964-11-08       289 male    120      3 white    25 </span></span>
-<span id="cb5-16"><a href="#cb5-16"></a><span class="do">## 10   148 single fe… live bi… 1965-04-17       299 male    143      3 white    30 </span></span>
-<span id="cb5-17"><a href="#cb5-17"></a><span class="do">## # … with 1,226 more rows, and 13 more variables: ed &lt;chr&gt;, ht &lt;dbl&gt;, </span></span>
-<span id="cb5-18"><a href="#cb5-18"></a><span class="do">## #   wt.1 &lt;dbl&gt;, drace &lt;chr&gt;, dage &lt;dbl&gt;, ded &lt;chr&gt;, dht &lt;dbl&gt;, dwt &lt;dbl&gt;, </span></span>
-<span id="cb5-19"><a href="#cb5-19"></a><span class="do">## #   marital &lt;chr&gt;, inc &lt;chr&gt;, smoke &lt;chr&gt;, time &lt;chr&gt;, number &lt;chr&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="summarising-data-4" class="slide level2">
 <h2>Summarising data</h2>
 <ul>
-<li>We can summarise multiple variables (.vars) with the same function(s) (.funs)</li>
+<li>We can calculate multiple summaries at once</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">summarise_at</span>(Gestation,  </span>
-<span id="cb6-2"><a href="#cb6-2"></a>             <span class="at">.vars =</span> <span class="fu">vars</span>(gestation, wt, age), </span>
-<span id="cb6-3"><a href="#cb6-3"></a>             <span class="at">.funs =</span> mean, <span class="at">na.rm =</span> T) </span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="do">## # A tibble: 1 × 3 </span></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="do">##   gestation    wt   age </span></span>
-<span id="cb6-6"><a href="#cb6-6"></a><span class="do">##       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; </span></span>
-<span id="cb6-7"><a href="#cb6-7"></a><span class="do">## 1      279.  120.  27.3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">summarise</span>(Gestation,           </span>
+<span id="cb7-2"><a href="#cb7-2"></a>          <span class="at">Mean =</span> <span class="fu">mean</span>(wt), </span>
+<span id="cb7-3"><a href="#cb7-3"></a>          <span class="at">SD   =</span> <span class="fu">sd</span>(wt), </span>
+<span id="cb7-4"><a href="#cb7-4"></a>          <span class="at">Low  =</span> <span class="fu">quantile</span>(wt, <span class="fl">0.025</span>), </span>
+<span id="cb7-5"><a href="#cb7-5"></a>          <span class="at">High =</span> <span class="fu">quantile</span>(wt, <span class="fl">0.975</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 4
+   Mean    SD   Low  High
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1  120.  18.2    81   155</code></pre>
+</div>
+</div>
+</section>
+<section id="summarising-grouped-data-1" class="slide level2 smaller">
+<h2>Summarising grouped data</h2>
+<ul>
+<li>We can group the rows in our data and calculate summaries for each group</li>
+<li><code>group_by</code> lets us pass variable names to set the structure</li>
+<li>Row order is maintained</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>Gestation_grouped_by_race <span class="ot">&lt;-</span> <span class="fu">group_by</span>(Gestation, race) </span>
+<span id="cb9-2"><a href="#cb9-2"></a>Gestation_grouped_by_race </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,236 × 23
+# Groups:   race [6]
+      id plurality   outcome date       gestation sex      wt parity race    age
+   &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;   &lt;date&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
+ 1    15 single fet… live b… 1964-11-11       284 male    120      1 asian    27
+ 2    20 single fet… live b… 1965-02-07       282 male    113      2 white    33
+ 3    58 single fet… live b… 1965-04-25       279 male    128      1 white    28
+ 4    61 single fet… live b… 1965-02-12        NA male    123      2 white    36
+ 5    72 single fet… live b… 1964-11-25       282 male    108      1 white    23
+ 6   100 single fet… live b… 1965-07-31       286 male    136      4 white    25
+ 7   102 single fet… live b… 1964-12-19       244 male    138      4 black    33
+ 8   129 single fet… live b… 1965-04-11       245 male    132      2 black    23
+ 9   142 single fet… live b… 1964-11-08       289 male    120      3 white    25
+10   148 single fet… live b… 1965-04-17       299 male    143      3 white    30
+# ℹ 1,226 more rows
+# ℹ 13 more variables: ed &lt;chr&gt;, ht &lt;dbl&gt;, wt.1 &lt;dbl&gt;, drace &lt;chr&gt;, dage &lt;dbl&gt;,
+#   ded &lt;chr&gt;, dht &lt;dbl&gt;, dwt &lt;dbl&gt;, marital &lt;chr&gt;, inc &lt;chr&gt;, smoke &lt;chr&gt;,
+#   time &lt;chr&gt;, number &lt;chr&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="summarising-grouped-data-2" class="slide level2">
+<h2>Summarising grouped data</h2>
+<ul>
+<li><code>summarise()</code> respects the grouping structure</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">summarise</span>(Gestation_grouped_by_race,           </span>
+<span id="cb11-2"><a href="#cb11-2"></a>          <span class="at">Mean =</span> <span class="fu">mean</span>(wt), </span>
+<span id="cb11-3"><a href="#cb11-3"></a>          <span class="at">SD   =</span> <span class="fu">sd</span>(wt), </span>
+<span id="cb11-4"><a href="#cb11-4"></a>          <span class="at">Low  =</span> <span class="fu">quantile</span>(wt, <span class="fl">0.025</span>), </span>
+<span id="cb11-5"><a href="#cb11-5"></a>          <span class="at">High =</span> <span class="fu">quantile</span>(wt, <span class="fl">0.975</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  race   Mean    SD   Low  High
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 asian  110.  16.0  78.4  139.
+2 black  113.  19.1  71    150 
+3 mex    124.  14.1  99.0  146.
+4 mixed  120.  20.1  78.8  150.
+5 white  122.  17.7  85    158 
+6 &lt;NA&gt;   117.  16.7  86.8  143.</code></pre>
+</div>
 </div>
 </section>
 <section id="summarising-data-5" class="slide level2">
 <h2>Summarising data</h2>
 <ul>
+<li>We can summarise multiple variables (<code>.vars)</code> with the same function(s) (<code>.funs</code>)</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="fu">summarise_at</span>(Gestation,  </span>
+<span id="cb13-2"><a href="#cb13-2"></a>             <span class="at">.vars =</span> <span class="fu">vars</span>(gestation, wt, age), </span>
+<span id="cb13-3"><a href="#cb13-3"></a>             <span class="at">.funs =</span> mean, <span class="at">na.rm =</span> T) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  gestation    wt   age
+      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1      279.  120.  27.3</code></pre>
+</div>
+</div>
+</section>
+<section id="summarising-data-6" class="slide level2">
+<h2>Summarising data</h2>
+<ul>
 <li>We can even do multiple summaries across multiple variables by specifying
 <ul>
-<li>which .vars we want to summarise, and</li>
-<li>a list of which .funs we wish to summarise with</li>
+<li>which <code>.vars</code> we want to summarise, and</li>
+<li>a list of which z we wish to summarise with</li>
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">summarise_at</span>(Gestation,  </span>
-<span id="cb7-2"><a href="#cb7-2"></a>             <span class="at">.vars =</span> <span class="fu">vars</span>(gestation, wt, age),</span>
-<span id="cb7-3"><a href="#cb7-3"></a>             <span class="at">.funs =</span> <span class="fu">list</span>(<span class="at">mean =</span> mean,<span class="at">sd =</span> sd), </span>
-<span id="cb7-4"><a href="#cb7-4"></a>             <span class="at">na.rm =</span> T) </span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="do">## # A tibble: 1 × 6 </span></span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="do">##   gestation_mean wt_mean age_mean gestation_sd wt_sd age_sd </span></span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="do">##            &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; </span></span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="do">## 1           279.    120.     27.3         16.0  18.2   5.78</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">summarise_at</span>(Gestation,  </span>
+<span id="cb15-2"><a href="#cb15-2"></a>             <span class="at">.vars =</span> <span class="fu">vars</span>(gestation, wt, age),</span>
+<span id="cb15-3"><a href="#cb15-3"></a>             <span class="at">.funs =</span> <span class="fu">list</span>(<span class="at">mean =</span> mean,<span class="at">sd =</span> sd), </span>
+<span id="cb15-4"><a href="#cb15-4"></a>             <span class="at">na.rm =</span> T) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 6
+  gestation_mean wt_mean age_mean gestation_sd wt_sd age_sd
+           &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+1           279.    120.     27.3         16.0  18.2   5.78</code></pre>
+</div>
 </div>
 </section>
 <section id="summarising-grouepd-data" class="slide level2">
 <h2>Summarising grouepd data</h2>
 <ul>
-<li>All summarise*() respects the grouping structure</li>
+<li>All <code>summarise\*()</code> respects the grouping structure</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">summarise_at</span>(Gestation_grouped_by_race, </span>
-<span id="cb8-2"><a href="#cb8-2"></a>             <span class="at">.vars =</span> <span class="fu">vars</span>(gestation, wt, age), </span>
-<span id="cb8-3"><a href="#cb8-3"></a>             <span class="at">.funs =</span> <span class="fu">list</span>(<span class="at">mean =</span> mean), <span class="at">na.rm =</span> T) </span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="do">## # A tibble: 6 × 4 </span></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="do">##   race  gestation_mean wt_mean age_mean </span></span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="do">##   &lt;chr&gt;          &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; </span></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="do">## 1 asian           274.    110.     29.4 </span></span>
-<span id="cb8-8"><a href="#cb8-8"></a><span class="do">## 2 black           274.    113.     27.6 </span></span>
-<span id="cb8-9"><a href="#cb8-9"></a><span class="do">## 3 mex             278.    124.     26.5 </span></span>
-<span id="cb8-10"><a href="#cb8-10"></a><span class="do">## 4 mixed           279.    120.     26.4 </span></span>
-<span id="cb8-11"><a href="#cb8-11"></a><span class="do">## 5 white           281.    122.     27.1 </span></span>
-<span id="cb8-12"><a href="#cb8-12"></a><span class="do">## 6 &lt;NA&gt;            280     117.     30.7</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">summarise_at</span>(Gestation_grouped_by_race, </span>
+<span id="cb17-2"><a href="#cb17-2"></a>             <span class="at">.vars =</span> <span class="fu">vars</span>(gestation, wt, age), </span>
+<span id="cb17-3"><a href="#cb17-3"></a>             <span class="at">.funs =</span> <span class="fu">list</span>(<span class="at">mean =</span> mean), <span class="at">na.rm =</span> T) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  race  gestation_mean wt_mean age_mean
+  &lt;chr&gt;          &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+1 asian           274.    110.     29.4
+2 black           274.    113.     27.6
+3 mex             278.    124.     26.5
+4 mixed           279.    120.     26.4
+5 white           281.    122.     27.1
+6 &lt;NA&gt;            280     117.     30.7</code></pre>
 </div>
-</section>
-<section id="rows-and-columns" class="slide level2">
-<h2>Rows and columns</h2>
+</div>
+</section></section>
+<section>
+<section id="rows-and-columns" class="title-slide slide level1 center">
+<h1>Rows and columns</h1>
+
 </section>
 <section id="operating-on-columns" class="slide level2">
 <h2>Operating on columns</h2>
 <ul>
-<li>create/modify/delete columns with dplyr’s mutate()</li>
+<li>create/modify/delete columns with dplyr’s <code>mutate()</code></li>
 <li>e.g.&nbsp;relabelling race so words start with a capital,</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>Gestation <span class="ot">&lt;-</span> <span class="fu">mutate</span>(Gestation, <span class="at">race =</span> <span class="fu">str_to_title</span>(race)) </span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="fu">count</span>(Gestation, race) </span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="do">## # A tibble: 6 × 2 </span></span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="do">##   race      n </span></span>
-<span id="cb9-5"><a href="#cb9-5"></a><span class="do">##   &lt;chr&gt; &lt;int&gt; </span></span>
-<span id="cb9-6"><a href="#cb9-6"></a><span class="do">## 1 Asian    44 </span></span>
-<span id="cb9-7"><a href="#cb9-7"></a><span class="do">## 2 Black   244 </span></span>
-<span id="cb9-8"><a href="#cb9-8"></a><span class="do">## 3 Mex      40 </span></span>
-<span id="cb9-9"><a href="#cb9-9"></a><span class="do">## 4 Mixed    25 </span></span>
-<span id="cb9-10"><a href="#cb9-10"></a><span class="do">## 5 White   870 </span></span>
-<span id="cb9-11"><a href="#cb9-11"></a><span class="do">## 6 &lt;NA&gt;     13</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>Gestation <span class="ot">&lt;-</span> <span class="fu">mutate</span>(Gestation, <span class="at">race =</span> <span class="fu">str_to_title</span>(race)) </span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="fu">count</span>(Gestation, race) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  race      n
+  &lt;chr&gt; &lt;int&gt;
+1 Asian    44
+2 Black   244
+3 Mex      40
+4 Mixed    25
+5 White   870
+6 &lt;NA&gt;     13</code></pre>
+</div>
 </div>
 </section>
-<section id="choosing-columns" class="slide level2">
+<section id="choosing-columns" class="slide level2 smaller">
 <h2>Choosing columns</h2>
 <ul>
 <li>For one reason or another we may want to select only certain columns of our data frame</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">head</span>(Gestation, <span class="dv">1</span>)</span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="do">## # A tibble: 1 × 23 </span></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="do">##      id pluralty     outcome date       gestation sex      wt parity race    age </span></span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="do">##   &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;   &lt;date&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; </span></span>
-<span id="cb10-5"><a href="#cb10-5"></a><span class="do">## 1    15 single fetus live b… 1964-11-11       284 male    120      1 Asian    27 </span></span>
-<span id="cb10-6"><a href="#cb10-6"></a><span class="do">## # … with 13 more variables: ed &lt;chr&gt;, ht &lt;dbl&gt;, wt.1 &lt;dbl&gt;, drace &lt;chr&gt;, </span></span>
-<span id="cb10-7"><a href="#cb10-7"></a><span class="do">## #   dage &lt;dbl&gt;, ded &lt;chr&gt;, dht &lt;dbl&gt;, dwt &lt;dbl&gt;, marital &lt;chr&gt;, inc &lt;chr&gt;, </span></span>
-<span id="cb10-8"><a href="#cb10-8"></a><span class="do">## #   smoke &lt;chr&gt;, time &lt;chr&gt;, number &lt;chr&gt; </span></span>
-<span id="cb10-9"><a href="#cb10-9"></a><span class="fu">head</span>(<span class="fu">select</span>(Gestation, race, wt, number), <span class="dv">1</span>)</span>
-<span id="cb10-10"><a href="#cb10-10"></a><span class="do">## # A tibble: 1 × 3 </span></span>
-<span id="cb10-11"><a href="#cb10-11"></a><span class="do">##   race     wt number </span></span>
-<span id="cb10-12"><a href="#cb10-12"></a><span class="do">##   &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;  </span></span>
-<span id="cb10-13"><a href="#cb10-13"></a><span class="do">## 1 Asian   120 never</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">head</span>(Gestation, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 23
+     id plurality    outcome date       gestation sex      wt parity race    age
+  &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;   &lt;date&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
+1    15 single fetus live b… 1964-11-11       284 male    120      1 Asian    27
+# ℹ 13 more variables: ed &lt;chr&gt;, ht &lt;dbl&gt;, wt.1 &lt;dbl&gt;, drace &lt;chr&gt;, dage &lt;dbl&gt;,
+#   ded &lt;chr&gt;, dht &lt;dbl&gt;, dwt &lt;dbl&gt;, marital &lt;chr&gt;, inc &lt;chr&gt;, smoke &lt;chr&gt;,
+#   time &lt;chr&gt;, number &lt;chr&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="fu">head</span>(<span class="fu">select</span>(Gestation, race, wt, number), <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  race     wt number
+  &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; 
+1 Asian   120 never </code></pre>
+</div>
 </div>
 </section>
 <section id="choosing-and-renaming-columns" class="slide level2">
@@ -617,24 +687,26 @@
 <li>We can also rename columns on the fly as we select them</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">select</span>(Gestation, </span>
-<span id="cb11-2"><a href="#cb11-2"></a>       <span class="at">Race                =</span> race,  </span>
-<span id="cb11-3"><a href="#cb11-3"></a>       <span class="st">`</span><span class="at">Birthweight (oz)</span><span class="st">`</span>  <span class="ot">=</span> wt, </span>
-<span id="cb11-4"><a href="#cb11-4"></a>       <span class="st">`</span><span class="at">Cigs. smoked</span><span class="st">`</span>      <span class="ot">=</span> number) </span>
-<span id="cb11-5"><a href="#cb11-5"></a><span class="do">## # A tibble: 1,236 × 3 </span></span>
-<span id="cb11-6"><a href="#cb11-6"></a><span class="do">##    Race  `Birthweight (oz)` `Cigs. smoked` </span></span>
-<span id="cb11-7"><a href="#cb11-7"></a><span class="do">##    &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;          </span></span>
-<span id="cb11-8"><a href="#cb11-8"></a><span class="do">##  1 Asian                120 never          </span></span>
-<span id="cb11-9"><a href="#cb11-9"></a><span class="do">##  2 White                113 never          </span></span>
-<span id="cb11-10"><a href="#cb11-10"></a><span class="do">##  3 White                128 1-4 per day    </span></span>
-<span id="cb11-11"><a href="#cb11-11"></a><span class="do">##  4 White                123 20-29 per day  </span></span>
-<span id="cb11-12"><a href="#cb11-12"></a><span class="do">##  5 White                108 20-29 per day  </span></span>
-<span id="cb11-13"><a href="#cb11-13"></a><span class="do">##  6 White                136 5-9 per day    </span></span>
-<span id="cb11-14"><a href="#cb11-14"></a><span class="do">##  7 Black                138 never          </span></span>
-<span id="cb11-15"><a href="#cb11-15"></a><span class="do">##  8 Black                132 never          </span></span>
-<span id="cb11-16"><a href="#cb11-16"></a><span class="do">##  9 White                120 never          </span></span>
-<span id="cb11-17"><a href="#cb11-17"></a><span class="do">## 10 White                143 15-19 per day  </span></span>
-<span id="cb11-18"><a href="#cb11-18"></a><span class="do">## # … with 1,226 more rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="fu">select</span>(Gestation, </span>
+<span id="cb25-2"><a href="#cb25-2"></a>       <span class="at">Race                =</span> race,  </span>
+<span id="cb25-3"><a href="#cb25-3"></a>       <span class="st">`</span><span class="at">Birthweight (oz)</span><span class="st">`</span>  <span class="ot">=</span> wt,                                   </span>
+<span id="cb25-4"><a href="#cb25-4"></a>       <span class="at">Cigs.smoked         =</span> number) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,236 × 3
+   Race  `Birthweight (oz)` Cigs.smoked  
+   &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;        
+ 1 Asian                120 never        
+ 2 White                113 never        
+ 3 White                128 1-4 per day  
+ 4 White                123 20-29 per day
+ 5 White                108 20-29 per day
+ 6 White                136 5-9 per day  
+ 7 Black                138 never        
+ 8 Black                132 never        
+ 9 White                120 never        
+10 White                143 15-19 per day
+# ℹ 1,226 more rows</code></pre>
+</div>
 </div>
 </section>
 <section id="choosing-and-renaming-columns-1" class="slide level2">
@@ -643,129 +715,155 @@
 <li>Alternatively we can rename columns without worrying about failing to select columns we haven’t renamed</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">names</span>(Gestation)</span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="do">##  [1] "id"        "pluralty"  "outcome"   "date"      "gestation" "sex"       </span></span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="do">##  [7] "wt"        "parity"    "race"      "age"       "ed"        "ht"        </span></span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="do">## [13] "wt.1"      "drace"     "dage"      "ded"       "dht"       "dwt"       </span></span>
-<span id="cb12-5"><a href="#cb12-5"></a><span class="do">## [19] "marital"   "inc"       "smoke"     "time"      "number" Gestation &lt;- rename(Gestation, `Cigs. smoked` = number) </span></span>
-<span id="cb12-6"><a href="#cb12-6"></a><span class="fu">names</span>(Gestation)</span>
-<span id="cb12-7"><a href="#cb12-7"></a><span class="do">##  [1] "id"           "pluralty"     "outcome"      "date"         "gestation"    </span></span>
-<span id="cb12-8"><a href="#cb12-8"></a><span class="do">##  [6] "sex"          "wt"           "parity"       "race"         "age"          </span></span>
-<span id="cb12-9"><a href="#cb12-9"></a><span class="do">## [11] "ed"           "ht"           "wt.1"         "drace"        "dage"         </span></span>
-<span id="cb12-10"><a href="#cb12-10"></a><span class="do">## [16] "ded"          "dht"          "dwt"          "marital"      "inc"          ## [21] "smoke"        "time"         "Cigs. smoked"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="fu">names</span>(Gestation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "id"        "plurality" "outcome"   "date"      "gestation" "sex"      
+ [7] "wt"        "parity"    "race"      "age"       "ed"        "ht"       
+[13] "wt.1"      "drace"     "dage"      "ded"       "dht"       "dwt"      
+[19] "marital"   "inc"       "smoke"     "time"      "number"   </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>Gestation <span class="ot">&lt;-</span> <span class="fu">rename</span>(Gestation, <span class="at">Cigs.smoked =</span> number)</span>
+<span id="cb29-2"><a href="#cb29-2"></a></span>
+<span id="cb29-3"><a href="#cb29-3"></a><span class="fu">names</span>(Gestation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "id"          "plurality"   "outcome"     "date"        "gestation"  
+ [6] "sex"         "wt"          "parity"      "race"        "age"        
+[11] "ed"          "ht"          "wt.1"        "drace"       "dage"       
+[16] "ded"         "dht"         "dwt"         "marital"     "inc"        
+[21] "smoke"       "time"        "Cigs.smoked"</code></pre>
+</div>
 </div>
 </section>
-<section id="choosing-rows" class="slide level2">
+<section id="choosing-rows" class="slide level2 smaller">
 <h2>Choosing rows</h2>
 <ul>
 <li>The dplyr equivalent of subset is filter</li>
 <li>Takes a logical statement and does non-standard evaluation of variable names</li>
-<li>filter(data, A &amp; B) the same as filter(data, A, B)</li>
+<li><code>filter(data, A &amp; B)</code> the same as <code>filter(data, A, B)</code></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>Gestation2 <span class="ot">&lt;-</span> <span class="fu">select</span>(Gestation, </span>
-<span id="cb13-2"><a href="#cb13-2"></a>                     <span class="at">Race                =</span> race,  </span>
-<span id="cb13-3"><a href="#cb13-3"></a>                     <span class="st">`</span><span class="at">Birthweight (oz)</span><span class="st">`</span>  <span class="ot">=</span> wt,                                   </span>
-<span id="cb13-4"><a href="#cb13-4"></a>                     <span class="st">`</span><span class="at">Cigs. smoked</span><span class="st">`</span>      <span class="ot">=</span> number) </span>
-<span id="cb13-5"><a href="#cb13-5"></a><span class="fu">filter</span>(Gestation2, Race <span class="sc">==</span> <span class="st">"white"</span>, <span class="st">`</span><span class="at">Cigs. smoked</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"never"</span>) </span>
-<span id="cb13-6"><a href="#cb13-6"></a><span class="do">## # A tibble: 352 × 3 </span></span>
-<span id="cb13-7"><a href="#cb13-7"></a><span class="do">##    Race  `Birthweight (oz)` `Cigs. smoked` </span></span>
-<span id="cb13-8"><a href="#cb13-8"></a><span class="do">##    &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;          </span></span>
-<span id="cb13-9"><a href="#cb13-9"></a><span class="do">##  1 White                113 never          </span></span>
-<span id="cb13-10"><a href="#cb13-10"></a><span class="do">##  2 White                120 never          </span></span>
-<span id="cb13-11"><a href="#cb13-11"></a><span class="do">##  3 White                144 never          </span></span>
-<span id="cb13-12"><a href="#cb13-12"></a><span class="do">##  4 White                125 never          </span></span>
-<span id="cb13-13"><a href="#cb13-13"></a><span class="do">##  5 White                122 never          </span></span>
-<span id="cb13-14"><a href="#cb13-14"></a><span class="do">##  6 White                113 never          </span></span>
-<span id="cb13-15"><a href="#cb13-15"></a><span class="do">##  7 White                134 never          </span></span>
-<span id="cb13-16"><a href="#cb13-16"></a><span class="do">##  8 White                128 never          </span></span>
-<span id="cb13-17"><a href="#cb13-17"></a><span class="do">##  9 White                129 never          </span></span>
-<span id="cb13-18"><a href="#cb13-18"></a><span class="do">## 10 White                110 never          </span></span>
-<span id="cb13-19"><a href="#cb13-19"></a><span class="do">## # … with 342 more rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>Gestation2 <span class="ot">&lt;-</span> <span class="fu">select</span>(Gestation, </span>
+<span id="cb31-2"><a href="#cb31-2"></a>                     <span class="at">Race                =</span> race,  </span>
+<span id="cb31-3"><a href="#cb31-3"></a>                     <span class="st">`</span><span class="at">Birthweight (oz)</span><span class="st">`</span>  <span class="ot">=</span> wt,                                   </span>
+<span id="cb31-4"><a href="#cb31-4"></a>                     <span class="at">Cigs.smoked         =</span> number) </span>
+<span id="cb31-5"><a href="#cb31-5"></a><span class="fu">filter</span>(Gestation2, Race <span class="sc">==</span> <span class="st">"White"</span>, Cigs.smoked <span class="sc">==</span> <span class="st">"never"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 352 × 3
+   Race  `Birthweight (oz)` Cigs.smoked
+   &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;      
+ 1 White                113 never      
+ 2 White                120 never      
+ 3 White                144 never      
+ 4 White                125 never      
+ 5 White                122 never      
+ 6 White                113 never      
+ 7 White                134 never      
+ 8 White                128 never      
+ 9 White                129 never      
+10 White                110 never      
+# ℹ 342 more rows</code></pre>
+</div>
 </div>
 </section>
-<section id="choosing-rows-1" class="slide level2">
+<section id="choosing-rows-1" class="slide level2 smaller">
 <h2>Choosing rows</h2>
 <ul>
-<li>slice*() functions allow you to select rows based on their properties, e.g.&nbsp;which babies have lowest birth weight overall and in each race group?</li>
+<li><code>slice\*()</code> functions allow you to select rows based on their properties, e.g.&nbsp;which babies have lowest birth weight overall and in each race group?</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">slice_min</span>(Gestation2, <span class="st">`</span><span class="at">Birthweight (oz)</span><span class="st">`</span>) </span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="do">## # A tibble: 1 × 3 </span></span>
-<span id="cb14-3"><a href="#cb14-3"></a><span class="do">##   Race  `Birthweight (oz)` `Cigs. smoked` </span></span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="do">##   &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;          </span></span>
-<span id="cb14-5"><a href="#cb14-5"></a><span class="do">## 1 Black                 55 never </span></span>
-<span id="cb14-6"><a href="#cb14-6"></a><span class="fu">slice_min</span>(<span class="fu">group_by</span>(Gestation2, Race), <span class="st">`</span><span class="at">Birthweight (oz)</span><span class="st">`</span>) </span>
-<span id="cb14-7"><a href="#cb14-7"></a><span class="do">## # A tibble: 6 × 3 </span></span>
-<span id="cb14-8"><a href="#cb14-8"></a><span class="do">## # Groups:   Race [6] </span></span>
-<span id="cb14-9"><a href="#cb14-9"></a><span class="do">##   Race  `Birthweight (oz)` `Cigs. smoked` </span></span>
-<span id="cb14-10"><a href="#cb14-10"></a><span class="do">##   &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;          </span></span>
-<span id="cb14-11"><a href="#cb14-11"></a><span class="do">## 1 Asian                 71 5-9 per day    </span></span>
-<span id="cb14-12"><a href="#cb14-12"></a><span class="do">## 2 Black                 55 never          </span></span>
-<span id="cb14-13"><a href="#cb14-13"></a><span class="do">## 3 Mex                   97 never          </span></span>
-<span id="cb14-14"><a href="#cb14-14"></a><span class="do">## 4 Mixed                 77 20-29 per day  </span></span>
-<span id="cb14-15"><a href="#cb14-15"></a><span class="do">## 5 White                 63 never          </span></span>
-<span id="cb14-16"><a href="#cb14-16"></a><span class="do">## 6 &lt;NA&gt;                  82 20-29 per day</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="fu">slice_min</span>(Gestation2, <span class="st">`</span><span class="at">Birthweight (oz)</span><span class="st">`</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  Race  `Birthweight (oz)` Cigs.smoked
+  &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;      
+1 Black                 55 never      </code></pre>
 </div>
-</section>
-<section id="reshaping-data-frames" class="slide level2">
-<h2>Reshaping data frames</h2>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="fu">slice_min</span>(<span class="fu">group_by</span>(Gestation2, Race), <span class="st">`</span><span class="at">Birthweight (oz)</span><span class="st">`</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+# Groups:   Race [6]
+  Race  `Birthweight (oz)` Cigs.smoked  
+  &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;        
+1 Asian                 71 5-9 per day  
+2 Black                 55 never        
+3 Mex                   97 never        
+4 Mixed                 77 20-29 per day
+5 White                 63 never        
+6 &lt;NA&gt;                  82 20-29 per day</code></pre>
+</div>
+</div>
+</section></section>
+<section>
+<section id="reshaping-data-frames" class="title-slide slide level1 center">
+<h1>Reshaping data frames</h1>
+
 </section>
 <section id="long-and-wide-tidy-data" class="slide level2">
 <h2>Long and wide tidy data</h2>
 <ul>
 <li>Tidy data frames consist of a number of observations (rows) of variables (columns), they can be either wide or long (Wickham 2014)</li>
-<li>We can pivot between wide and long format with tidyr’s pivot_*() functions</li>
+<li>We can pivot between wide and long format with tidyr’s <code>pivot\_\*()</code> functions</li>
 <li>Pivoting to a longer data frame helps put data in key-value pairs, useful for ggplot2</li>
 <li>The value is the value of the named variable for a given id</li>
 </ul>
 </section>
 <section id="long-and-wide-tidy-data-1" class="slide level2">
 <h2>Long and wide tidy data</h2>
-<p>To make this pivot, we specify - which cols are to be converted from being k columns of length n to one column of length n×k - the names_to column name, which contains the names of the pivoted columns - the values_to name of the column containing the value of each variable for each id</p>
+<p>To make this pivot, we specify</p>
+<ul>
+<li>which cols are to be converted from being <code>k</code> columns of length <code>n</code> to one column of length <code>n×k</code></li>
+<li>the <code>names_to</code> column name, which contains the names of the pivoted columns</li>
+<li>the <code>values_to</code> name of the column containing the value of each variable for each <code>id</code></li>
+</ul>
 </section>
 <section id="long-and-wide-tidy-data-2" class="slide level2">
 <h2>Long and wide tidy data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>Gestation_igwa <span class="ot">&lt;-</span> <span class="fu">select</span>(Gestation, id, gestation, wt, age) </span>
-<span id="cb15-2"><a href="#cb15-2"></a>Gestation_long <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(   <span class="at">data            =</span> Gestation_igwa,   </span>
-<span id="cb15-3"><a href="#cb15-3"></a>                                  <span class="at">cols            =</span> <span class="fu">c</span>(gestation, wt, age),    </span>
-<span id="cb15-4"><a href="#cb15-4"></a>                                  <span class="at">names_to        =</span> <span class="st">'name'</span>,    </span>
-<span id="cb15-5"><a href="#cb15-5"></a>                                  <span class="at">values_to       =</span> <span class="st">'value'</span>) </span>
-<span id="cb15-6"><a href="#cb15-6"></a><span class="fu">head</span>(Gestation_long, <span class="dv">6</span>) <span class="do">## # A tibble: 6 × 3 </span></span>
-<span id="cb15-7"><a href="#cb15-7"></a><span class="do">##      id name      value </span></span>
-<span id="cb15-8"><a href="#cb15-8"></a><span class="do">##   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; </span></span>
-<span id="cb15-9"><a href="#cb15-9"></a><span class="do">## 1    15 gestation   284 </span></span>
-<span id="cb15-10"><a href="#cb15-10"></a><span class="do">## 2    15 wt          120 </span></span>
-<span id="cb15-11"><a href="#cb15-11"></a><span class="do">## 3    15 age          27 </span></span>
-<span id="cb15-12"><a href="#cb15-12"></a><span class="do">## 4    20 gestation   282 </span></span>
-<span id="cb15-13"><a href="#cb15-13"></a><span class="do">## 5    20 wt          113 </span></span>
-<span id="cb15-14"><a href="#cb15-14"></a><span class="do">## 6    20 age          33</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a>Gestation_igwa <span class="ot">&lt;-</span> <span class="fu">select</span>(Gestation, id, gestation, wt, age) </span>
+<span id="cb37-2"><a href="#cb37-2"></a>Gestation_long <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(   <span class="at">data            =</span> Gestation_igwa,   </span>
+<span id="cb37-3"><a href="#cb37-3"></a>                                  <span class="at">cols            =</span> <span class="fu">c</span>(gestation, wt, age),    </span>
+<span id="cb37-4"><a href="#cb37-4"></a>                                  <span class="at">names_to        =</span> <span class="st">"name"</span>,    </span>
+<span id="cb37-5"><a href="#cb37-5"></a>                                  <span class="at">values_to       =</span> <span class="st">"value"</span>) </span>
+<span id="cb37-6"><a href="#cb37-6"></a><span class="fu">head</span>(Gestation_long, <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+     id name      value
+  &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;
+1    15 gestation   284
+2    15 wt          120
+3    15 age          27
+4    20 gestation   282
+5    20 wt          113
+6    20 age          33</code></pre>
+</div>
 </div>
 <ul>
-<li>NB: we need to use ’ quotes for names_to and values_to arguments because they are strings defining new columns</li>
+<li>NB: we need to use “” quotes for <code>names_to</code> and <code>values_to</code> arguments because they are strings defining new columns</li>
 </ul>
 </section>
 <section id="long-and-wide-tidy-data-3" class="slide level2">
 <h2>Long and wide tidy data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>Gestation_long <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(Gestation_igwa, <span class="sc">-</span>id) </span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="fu">head</span>(Gestation_long, <span class="dv">6</span>) <span class="do">## # A tibble: 6 × 3 </span></span>
-<span id="cb16-3"><a href="#cb16-3"></a><span class="do">##      id name      value </span></span>
-<span id="cb16-4"><a href="#cb16-4"></a><span class="do">##   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; </span></span>
-<span id="cb16-5"><a href="#cb16-5"></a><span class="do">## 1    15 gestation   284 </span></span>
-<span id="cb16-6"><a href="#cb16-6"></a><span class="do">## 2    15 wt          120 </span></span>
-<span id="cb16-7"><a href="#cb16-7"></a><span class="do">## 3    15 age          27 </span></span>
-<span id="cb16-8"><a href="#cb16-8"></a><span class="do">## 4    20 gestation   282 </span></span>
-<span id="cb16-9"><a href="#cb16-9"></a><span class="do">## 5    20 wt          113 </span></span>
-<span id="cb16-10"><a href="#cb16-10"></a><span class="do">## 6    20 age          33</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a>Gestation_long <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(Gestation_igwa, <span class="sc">-</span>id) </span>
+<span id="cb39-2"><a href="#cb39-2"></a><span class="fu">head</span>(Gestation_long, <span class="dv">6</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+     id name      value
+  &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;
+1    15 gestation   284
+2    15 wt          120
+3    15 age          27
+4    20 gestation   282
+5    20 wt          113
+6    20 age          33</code></pre>
+</div>
 </div>
 <p>Or specify which columns not to pivot, e.g.&nbsp;-id selects all variables except id</p>
 </section>
-<section id="long-and-wide-tidy-data-4" class="slide level2">
+<section id="long-and-wide-tidy-data-4" class="slide level2 smaller">
 <h2>Long and wide tidy data</h2>
 <ul>
-<li>To convert to a wider format, we use pivot_wider</li>
+<li>To convert to a wider format, we use <code>pivot_wider</code></li>
 <li>For example, we specify:
 <ul>
 <li>the data source</li>
@@ -774,98 +872,124 @@
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>Gestation_wide <span class="ot">&lt;-</span> <span class="fu">pivot_wider</span>(<span class="at">data =</span> Gestation_long,          </span>
-<span id="cb17-2"><a href="#cb17-2"></a>                              <span class="at">names_from  =</span> name,</span>
-<span id="cb17-3"><a href="#cb17-3"></a>                              <span class="at">values_from =</span> value) </span>
-<span id="cb17-4"><a href="#cb17-4"></a></span>
-<span id="cb17-5"><a href="#cb17-5"></a><span class="fu">head</span>(Gestation_wide, <span class="dv">3</span>) <span class="co"># recovered original data frame </span></span>
-<span id="cb17-6"><a href="#cb17-6"></a><span class="do">## # A tibble: 3 × 4 </span></span>
-<span id="cb17-7"><a href="#cb17-7"></a><span class="do">##      id gestation    wt   age </span></span>
-<span id="cb17-8"><a href="#cb17-8"></a><span class="do">##   &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; </span></span>
-<span id="cb17-9"><a href="#cb17-9"></a><span class="do">## 1    15       284   120    27 </span></span>
-<span id="cb17-10"><a href="#cb17-10"></a><span class="do">## 2    20       282   113    33 </span></span>
-<span id="cb17-11"><a href="#cb17-11"></a><span class="do">## 3    58       279   128    28</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a>Gestation_wide <span class="ot">&lt;-</span> <span class="fu">pivot_wider</span>(<span class="at">data =</span> Gestation_long,          </span>
+<span id="cb41-2"><a href="#cb41-2"></a>                              <span class="at">names_from  =</span> name,</span>
+<span id="cb41-3"><a href="#cb41-3"></a>                              <span class="at">values_from =</span> value) </span>
+<span id="cb41-4"><a href="#cb41-4"></a></span>
+<span id="cb41-5"><a href="#cb41-5"></a><span class="fu">head</span>(Gestation_wide, <span class="dv">3</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 4
+     id gestation    wt   age
+  &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1    15       284   120    27
+2    20       282   113    33
+3    58       279   128    28</code></pre>
+</div>
 </div>
 </section>
-<section id="pipe" class="slide level2">
+<section id="pipe" class="slide level2 smaller">
 <h2>Pipe</h2>
 <ul>
-<li><p>dplyr imports the %&gt;% pipe from magrittr</p></li>
-<li><p>f(g(x)) is equivalent to x %&gt;% g %&gt;% f</p></li>
+<li><p>dplyr imports the <code>%\&gt;%</code> pipe from magrittr</p></li>
+<li><p><code>f(g(x))</code> is equivalent to <code>x %\&gt;% g %\&gt;% f</code></p></li>
 <li><p>Makes it easier to chain operations together without storing temporary objects</p></li>
-<li><p>Output on left of %&gt;% becomes first argument of function on right</p></li>
+<li><p>Output on left of <code>%\&gt;%</code> becomes first argument of function on right</p></li>
 <li><p>by convention, all tidyverse functions take a data frame as their first argument</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>x <span class="sc">%&gt;%</span> f_1 <span class="sc">%&gt;%</span> f_2 <span class="sc">%&gt;%</span> f_3</span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="co"># rather than f_3(f_2(f_1(x)))</span></span>
-<span id="cb18-3"><a href="#cb18-3"></a><span class="co"># or even worse... </span></span>
-<span id="cb18-4"><a href="#cb18-4"></a>x_1 <span class="ot">&lt;-</span> <span class="fu">f_1</span>(x) </span>
-<span id="cb18-5"><a href="#cb18-5"></a>x_2 <span class="ot">&lt;-</span> <span class="fu">f_2</span>(x_1) </span>
-<span id="cb18-6"><a href="#cb18-6"></a>x_3 <span class="ot">&lt;-</span> <span class="fu">f_3</span>(x_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a>x <span class="sc">%&gt;%</span> f_1 <span class="sc">%&gt;%</span> f_2 <span class="sc">%&gt;%</span> f_3</span>
+<span id="cb43-2"><a href="#cb43-2"></a><span class="co"># rather than f_3(f_2(f_1(x)))</span></span>
+<span id="cb43-3"><a href="#cb43-3"></a><span class="co"># or even worse... </span></span>
+<span id="cb43-4"><a href="#cb43-4"></a>x_1 <span class="ot">&lt;-</span> <span class="fu">f_1</span>(x) </span>
+<span id="cb43-5"><a href="#cb43-5"></a>x_2 <span class="ot">&lt;-</span> <span class="fu">f_2</span>(x_1) </span>
+<span id="cb43-6"><a href="#cb43-6"></a>x_3 <span class="ot">&lt;-</span> <span class="fu">f_3</span>(x_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="pipe-1" class="slide level2">
+<section id="pipe-1" class="slide level2 smaller">
 <h2>Pipe</h2>
 <ul>
 <li>An example</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>Gestation <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(race, smoke) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">wt =</span> <span class="fu">mean</span>(wt)) <span class="sc">%&gt;%</span>  <span class="fu">pivot_wider</span>(<span class="at">names_from  =</span> race,                                             </span>
-<span id="cb19-2"><a href="#cb19-2"></a>                                                                                  <span class="at">values_from =</span> wt) </span>
-<span id="cb19-3"><a href="#cb19-3"></a><span class="do">## # A tibble: 5 × 7 </span></span>
-<span id="cb19-4"><a href="#cb19-4"></a><span class="do">##   smoke                   Asian Black   Mex Mixed White  `NA` </span></span>
-<span id="cb19-5"><a href="#cb19-5"></a><span class="do">##   &lt;chr&gt;                   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; </span></span>
-<span id="cb19-6"><a href="#cb19-6"></a><span class="do">## 1 never                   114.   117.  123.  125.  125.  119. </span></span>
-<span id="cb19-7"><a href="#cb19-7"></a><span class="do">## 2 now                      98.8  108.  127.  108.  116.  114. </span></span>
-<span id="cb19-8"><a href="#cb19-8"></a><span class="do">## 3 once did, not now       111    117.   NA   134   126.   NA  </span></span>
-<span id="cb19-9"><a href="#cb19-9"></a><span class="do">## 4 until current pregnancy 117    113.  129.  111   127.   NA  </span></span>
-<span id="cb19-10"><a href="#cb19-10"></a><span class="do">## 5 &lt;NA&gt;                    126    119   115    NA   131.   NA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a>Gestation <span class="sc">%&gt;%</span> </span>
+<span id="cb44-2"><a href="#cb44-2"></a>  <span class="fu">group_by</span>(race, smoke) <span class="sc">%&gt;%</span> </span>
+<span id="cb44-3"><a href="#cb44-3"></a>  <span class="fu">summarise</span>(<span class="at">wt =</span> <span class="fu">mean</span>(wt)) <span class="sc">%&gt;%</span> </span>
+<span id="cb44-4"><a href="#cb44-4"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from  =</span> race,</span>
+<span id="cb44-5"><a href="#cb44-5"></a>              <span class="at">values_from =</span> wt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 7
+  smoke                   Asian Black   Mex Mixed White  `NA`
+  &lt;chr&gt;                   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 never                   114.   117.  123.  125.  125.  119.
+2 now                      98.8  108.  127.  108.  116.  114.
+3 once did, not now       111    117.   NA   134   126.   NA 
+4 until current pregnancy 117    113.  129.  111   127.   NA 
+5 &lt;NA&gt;                    126    119   115    NA   131.   NA </code></pre>
+</div>
 </div>
 <ul>
 <li>NB the smoke variable is character and sorted alphabetically</li>
 </ul>
-</section>
-<section id="summary" class="slide level2">
-<h2>Summary</h2>
-<ul>
-<li>Summarising data
-<ul>
-<li>group_by to set a group structure</li>
-<li>summarise to calculate summary stats across group structure</li>
-<li>count to see how many rows in each group</li>
-<li>Reshaping data frames
-<ul>
-<li>pivot_longer from variables side by side to key-value</li>
-<li>pivot_wider from key-value to named column variables</li>
-</ul></li>
-</ul></li>
-</ul>
+</section></section>
+<section>
+<section id="summary" class="title-slide slide level1 center">
+<h1>Summary</h1>
+
 </section>
 <section id="summary-1" class="slide level2">
 <h2>Summary</h2>
 <ul>
-<li>Dealing with rows and columns</li>
-<li>mutate to create/modify/delete columns</li>
-<li>select to choose columns</li>
-<li>filter to choose rows based on logical condition</li>
-<li>slice* to choose rows based on position or property</li>
-<li>Pipe</li>
+<li>Summarising data
+<ul>
+<li><code>group_by</code> to set a group structure</li>
+<li><code>summarise</code> to calculate summary stats across group structure</li>
+<li><code>count</code> to see how many rows in each group</li>
+<li>Reshaping data frames
+<ul>
+<li><code>pivot_longer</code> from variables side by side to key-value</li>
+<li><code>pivot_wider</code> from key-value to named column variables</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="summary-2" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li>Dealing with rows and columns
+<ul>
+<li><code>mutate</code> to create/modify/delete columns</li>
+<li><code>select</code> to choose columns</li>
+<li><code>filter</code> to choose rows based on logical condition</li>
+<li><code>slice\*</code> to choose rows based on position or property</li>
+</ul></li>
+<li>Pipe
+<ul>
 <li>%&gt;% to chain operations</li>
+</ul></li>
 <li>Wickham (2014) on what tidy data is</li>
 <li>Wickham et al.&nbsp;(2019) for more explanation of tidyverse</li>
 </ul>
-</section>
-<section id="visualisation-with-ggplot2" class="slide level2">
-<h2>Visualisation with ggplot2</h2>
+</section></section>
+<section>
+<section id="visualisation-with-ggplot2" class="title-slide slide level1 center">
+<h1>Visualisation with ggplot2</h1>
+
 </section>
 <section id="why-do-we-visualise" class="slide level2">
 <h2>Why do we visualise?</h2>
-<p>Since the aim of exploratory data analysis is to learn what seems to be, it should be no surprise that pictures play a vital role in doing it well. There is nothing better than a picture for making you think of questions you had forgotten to ask (even mentally). Tukey and Tukey (1985)</p>
+<p>“Since the aim of exploratory data analysis is to learn what seems to be, it should be no surprise that pictures play a vital role in doing it well. There is nothing better than a picture for making you think of questions you had forgotten to ask (even mentally).”</p>
+<p>Tukey and Tukey (1985)</p>
 </section>
 <section id="principles" class="slide level2">
 <h2>Principles</h2>
-<p>Tufte (1983) and Pantoliano (2012) - Show the data - Provide clarity - Allow comparison where appropriate - use aesthetics to draw attention to important details - make clear that data has multiple levels of structure</p>
+<p>Tufte (1983) and Pantoliano (2012)</p>
+<ul>
+<li>Show the data</li>
+<li>Provide clarity</li>
+<li>Allow comparison where appropriate</li>
+<li>use aesthetics to draw attention to important details</li>
+<li>make clear that data has multiple levels of structure</li>
+</ul>
 </section>
 <section id="principles-1" class="slide level2">
 <h2>Principles</h2>
@@ -883,8 +1007,8 @@
 </ul></li>
 </ul>
 </section>
-<section id="bulding-plots" class="slide level2">
-<h2>Bulding plots</h2>
+<section id="building-plots" class="slide level2">
+<h2>Building plots</h2>
 <ul>
 <li>ggplot2 uses a grammar of graphics (Wickham 2010)</li>
 <li>map variables in data frame to aesthetic options in the plot</li>
@@ -895,15 +1019,15 @@
 <li>python users have plotnine (Kibirige 2020) which is based on the same ideas</li>
 </ul>
 </section>
-<section id="bulding-plots-1" class="slide level2">
-<h2>Bulding plots</h2>
+<section id="building-plots-1" class="slide level2">
+<h2>Building plots</h2>
 <p>How do we structure a call to ggplot to make a plot?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="co"># library(ggplot2) # already loaded with tidyverse </span></span>
-<span id="cb20-2"><a href="#cb20-2"></a><span class="fu">ggplot</span>(<span class="at">data =</span> my.data.frame,</span>
-<span id="cb20-3"><a href="#cb20-3"></a>       <span class="fu">aes</span>(<span class="at">x =</span> my.x.variable, </span>
-<span id="cb20-4"><a href="#cb20-4"></a>           <span class="at">y =</span> my.y.variable)) <span class="sc">+</span>   </span>
-<span id="cb20-5"><a href="#cb20-5"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a><span class="co"># library(ggplot2) # already loaded with tidyverse </span></span>
+<span id="cb46-2"><a href="#cb46-2"></a><span class="fu">ggplot</span>(<span class="at">data =</span> my.data.frame,</span>
+<span id="cb46-3"><a href="#cb46-3"></a>       <span class="fu">aes</span>(<span class="at">x =</span> my.x.variable, </span>
+<span id="cb46-4"><a href="#cb46-4"></a>           <span class="at">y =</span> my.y.variable)) <span class="sc">+</span>   </span>
+<span id="cb46-5"><a href="#cb46-5"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>load ggplot2 package</li>
@@ -912,32 +1036,32 @@
 <li>State geometry we’re using to show variables</li>
 </ul>
 </section>
-<section id="bulding-plots-2" class="slide level2">
-<h2>Bulding plots</h2>
+<section id="building-plots-2" class="slide level2 smaller">
+<h2>Building plots</h2>
 <ul>
 <li>For example, consider daily maximum temperature varying with solar radiation in New York City 1973</li>
 <li>Each row is a pair of values (x, y), shown as a point</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">data</span>(airquality) </span>
-<span id="cb21-2"><a href="#cb21-2"></a>solar_temp_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> airquality, <span class="fu">aes</span>(<span class="at">x =</span> Solar.R, <span class="at">y =</span> Temp)) <span class="sc">+</span> <span class="fu">geom_point</span>()  </span>
-<span id="cb21-3"><a href="#cb21-3"></a>solar_temp_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a><span class="fu">data</span>(airquality) </span>
+<span id="cb47-2"><a href="#cb47-2"></a>solar_temp_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> airquality, <span class="fu">aes</span>(<span class="at">x =</span> Solar.R, <span class="at">y =</span> Temp)) <span class="sc">+</span> <span class="fu">geom_point</span>()  </span>
+<span id="cb47-3"><a href="#cb47-3"></a>solar_temp_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="slides_files/figure-revealjs/unnamed-chunk-22-1.png" width="960" class="r-stretch"></section>
-<section id="scatter-plot" class="slide level2">
+<img data-src="slides_files/figure-revealjs/unnamed-chunk-25-1.png" width="960" class="r-stretch"></section>
+<section id="scatter-plot" class="slide level2 smaller">
 <h2>Scatter plot</h2>
 <ul>
 <li>We can add some human-friendly labels and change the theme</li>
 </ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>solar_temp_plot <span class="ot">&lt;-</span> solar_temp_plot <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
-<span id="cb22-2"><a href="#cb22-2"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Solar radiation (Langleys)'</span>, <span class="at">y =</span> <span class="st">'Max. daily temp. (F)'</span>)  </span>
-<span id="cb22-3"><a href="#cb22-3"></a>solar_temp_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
-</div>
-<img data-src="slides_files/figure-revealjs/unnamed-chunk-23-1.png" width="960" class="r-stretch"></section>
-<section id="line-plot" class="slide level2">
+<img data-src="slides_files/figure-revealjs/unnamed-chunk-26-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="some-more-geometries" class="title-slide slide level1 center">
+<h1>Some more geometries</h1>
+
+</section>
+<section id="line-plot" class="slide level2 smaller">
 <h2>Line plot</h2>
 <ul>
 <li>Similar to scatter plot, but joins pairs of values</li>
@@ -948,83 +1072,92 @@
 <li>nothing, don’t use a line</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>airquality <span class="ot">&lt;-</span> <span class="fu">mutate</span>(airquality, <span class="at">Date =</span> <span class="fu">as.Date</span>(<span class="fu">paste</span>(<span class="st">'1973'</span>, Month, Day, <span class="at">sep =</span> <span class="st">'-'</span>))) </span>
-<span id="cb23-2"><a href="#cb23-2"></a>airquality_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> airquality, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Ozone)) <span class="sc">+</span>   </span>
-<span id="cb23-3"><a href="#cb23-3"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
-<span id="cb23-4"><a href="#cb23-4"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
-<span id="cb23-5"><a href="#cb23-5"></a>  <span class="fu">labs</span>(<span class="at">y     =</span> <span class="st">'Ozone concentration (ppb)'</span>,                                   </span>
-<span id="cb23-6"><a href="#cb23-6"></a>       <span class="at">title =</span> <span class="st">'Daily mean Ozone in NYC (1973)'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1"></a>airquality <span class="ot">&lt;-</span> <span class="fu">mutate</span>(airquality, <span class="at">Date =</span> <span class="fu">as.Date</span>(<span class="fu">paste</span>(<span class="st">'1973'</span>, Month, Day, <span class="at">sep =</span> <span class="st">'-'</span>))) </span>
+<span id="cb48-2"><a href="#cb48-2"></a>airquality_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> airquality, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Ozone)) <span class="sc">+</span>   </span>
+<span id="cb48-3"><a href="#cb48-3"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb48-4"><a href="#cb48-4"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb48-5"><a href="#cb48-5"></a>  <span class="fu">labs</span>(<span class="at">y     =</span> <span class="st">'Ozone concentration (ppb)'</span>,                                   </span>
+<span id="cb48-6"><a href="#cb48-6"></a>       <span class="at">title =</span> <span class="st">'Daily mean Ozone in NYC (1973)'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="line-plot-1" class="slide level2">
+<section id="line-plot-1" class="slide level2 smaller">
 <h2>Line plot</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>airquality_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a>airquality_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="slides_files/figure-revealjs/unnamed-chunk-25-1.png" width="960" class="r-stretch"></section>
-<section id="line-plot-2" class="slide level2">
+<img data-src="slides_files/figure-revealjs/unnamed-chunk-28-1.png" width="960" class="r-stretch"><ul>
+<li>You may see this referred to as a time series plot</li>
+</ul>
+</section>
+<section id="line-plot-2" class="slide level2 smaller">
 <h2>Line plot</h2>
 <ul>
-<li>You may see this referred to as a time series plot</li>
 <li>Observations whose neighbours are NA values can’t be plotted with a line</li>
 <li>Can layer multiple geometries for same aesthetic mapping</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>airquality_plot <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1"></a>airquality_plot <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="slides_files/figure-revealjs/unnamed-chunk-26-1.png" width="960" class="r-stretch"></section>
-<section id="scatterplot-smoother" class="slide level2">
+<img data-src="slides_files/figure-revealjs/unnamed-chunk-29-1.png" width="960" class="r-stretch"></section>
+<section id="scatterplot-smoother" class="slide level2 smaller">
 <h2>Scatterplot smoother</h2>
 <ul>
 <li>Often too much data in a scatter plot to see pattern - Maybe we want to highlight the trend in the data</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>airquality_plot <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a>airquality_plot <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="slides_files/figure-revealjs/unnamed-chunk-27-1.png" width="960" class="r-stretch"></section>
-<section id="boxplot" class="slide level2">
+<img data-src="slides_files/figure-revealjs/unnamed-chunk-30-1.png" width="960" class="r-stretch"></section>
+<section id="boxplot" class="slide level2 smaller">
 <h2>Boxplot</h2>
 <ul>
 <li>continuous y, discrete x</li>
 <li>outliers (&gt; 1.5 IQR from median) shown as points automatically</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> airquality, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(Month), <span class="at">y =</span> Ozone)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">'Ozone conc. (ppb)'</span>, <span class="at">x =</span> <span class="st">'Month'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> airquality, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(Month), <span class="at">y =</span> Ozone)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">'Ozone conc. (ppb)'</span>, <span class="at">x =</span> <span class="st">'Month'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="slides_files/figure-revealjs/unnamed-chunk-28-1.png" width="960" class="r-stretch"></section>
-<section id="histograms" class="slide level2">
+<img data-src="slides_files/figure-revealjs/unnamed-chunk-31-1.png" width="960" class="r-stretch"></section>
+<section id="histograms" class="slide level2 smaller">
 <h2>Histograms</h2>
 <ul>
 <li>univariate graphical summary needs only one aesthetic, x</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>ozone_hist <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> airquality, <span class="fu">aes</span>(<span class="at">x =</span> Ozone)) <span class="sc">+</span>     </span>
-<span id="cb28-2"><a href="#cb28-2"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">10</span>, <span class="at">boundary =</span> <span class="dv">0</span>) <span class="sc">+</span>     </span>
-<span id="cb28-3"><a href="#cb28-3"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Ozone concentration (ppb)'</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>() </span>
-<span id="cb28-4"><a href="#cb28-4"></a>ozone_hist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a>ozone_hist <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> airquality, <span class="fu">aes</span>(<span class="at">x =</span> Ozone)) <span class="sc">+</span>     </span>
+<span id="cb53-2"><a href="#cb53-2"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">10</span>, <span class="at">boundary =</span> <span class="dv">0</span>) <span class="sc">+</span>     </span>
+<span id="cb53-3"><a href="#cb53-3"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Ozone concentration (ppb)'</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>() </span>
+<span id="cb53-4"><a href="#cb53-4"></a>ozone_hist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="slides_files/figure-revealjs/unnamed-chunk-29-1.png" width="960" class="r-stretch"></section>
-<section id="density-plots" class="slide level2">
+<img data-src="slides_files/figure-revealjs/unnamed-chunk-32-1.png" width="960" class="r-stretch"></section>
+<section id="density-plots" class="slide level2 smaller">
 <h2>Density plots</h2>
 <ul>
 <li>Kernel smoothing (continuous analogue of histogram)</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>ozone_dens <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> airquality, <span class="fu">aes</span>(<span class="at">x =</span> Ozone)) <span class="sc">+</span>     </span>
-<span id="cb29-2"><a href="#cb29-2"></a>  <span class="fu">geom_density</span>(<span class="at">fill =</span> <span class="st">'grey35'</span>) <span class="sc">+</span>     </span>
-<span id="cb29-3"><a href="#cb29-3"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Ozone concentration (ppb)'</span>) <span class="sc">+</span> </span>
-<span id="cb29-4"><a href="#cb29-4"></a>  <span class="fu">theme_bw</span>() </span>
-<span id="cb29-5"><a href="#cb29-5"></a>ozone_dens</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1"></a>ozone_dens <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> airquality, <span class="fu">aes</span>(<span class="at">x =</span> Ozone)) <span class="sc">+</span>     </span>
+<span id="cb54-2"><a href="#cb54-2"></a>  <span class="fu">geom_density</span>(<span class="at">fill =</span> <span class="st">'grey35'</span>) <span class="sc">+</span>     </span>
+<span id="cb54-3"><a href="#cb54-3"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Ozone concentration (ppb)'</span>) <span class="sc">+</span> </span>
+<span id="cb54-4"><a href="#cb54-4"></a>  <span class="fu">theme_bw</span>() </span>
+<span id="cb54-5"><a href="#cb54-5"></a>ozone_dens</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="slides_files/figure-revealjs/unnamed-chunk-30-1.png" width="960" class="r-stretch"></section>
-<section id="aesthetics" class="slide level2">
-<h2>Aesthetics</h2>
+<img data-src="slides_files/figure-revealjs/unnamed-chunk-33-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="more-on-aesthetics" class="title-slide slide level1 center">
+<h1>More on aesthetics</h1>
+
+</section>
+<section id="more-on-aesthetics-1" class="slide level2 smaller">
+<h2>More on aesthetics</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
 <table>
 <thead>
 <tr class="header">
@@ -1063,37 +1196,45 @@
 </tr>
 </tbody>
 </table>
+</div><div class="column" style="width:50%;">
 <ul>
 <li>If these (except group) are outside aes() they fix the value for all parts of that geometry</li>
 <li>Aesthetics specified inside ggplot() are inherited by all geometries for that plot</li>
 <li>Not all geometries accept all aesthetics (e.g.&nbsp;geom_line() has no fill)</li>
 <li>Some point shapes admit a colour and a fill</li>
 </ul>
-</section>
-<section id="more-on-aesthetics" class="slide level2">
-<h2>More on aesthetics</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="fu">data</span>(airquality) </span>
-<span id="cb30-2"><a href="#cb30-2"></a>solar_temp_plot_colored <span class="ot">&lt;-</span>    <span class="fu">ggplot</span>(<span class="at">data =</span> airquality,        </span>
-<span id="cb30-3"><a href="#cb30-3"></a>                                     <span class="fu">aes</span>(<span class="at">x =</span> Solar.R, <span class="at">y =</span> Temp)) <span class="sc">+</span>   </span>
-<span id="cb30-4"><a href="#cb30-4"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">fill =</span> <span class="fu">factor</span>(Month)),              </span>
-<span id="cb30-5"><a href="#cb30-5"></a>             <span class="at">shape =</span> <span class="dv">21</span>,              </span>
-<span id="cb30-6"><a href="#cb30-6"></a>             <span class="at">color =</span> <span class="st">'black'</span>)  <span class="sc">+</span>   </span>
-<span id="cb30-7"><a href="#cb30-7"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Solar radiation (Langleys)'</span>,        </span>
-<span id="cb30-8"><a href="#cb30-8"></a>       <span class="at">y =</span> <span class="st">'Max. daily temp. (F)'</span>) <span class="sc">+</span>   </span>
-<span id="cb30-9"><a href="#cb30-9"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span>    </span>
-<span id="cb30-10"><a href="#cb30-10"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Purples"</span>,                       </span>
-<span id="cb30-11"><a href="#cb30-11"></a>                    <span class="at">name   =</span> <span class="st">'Month'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 </section>
-<section id="more-on-aesthetics-1" class="slide level2">
+<section id="more-on-aesthetics-2" class="slide level2">
 <h2>More on aesthetics</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>solar_temp_plot_colored </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1"></a><span class="fu">data</span>(airquality) </span>
+<span id="cb55-2"><a href="#cb55-2"></a>solar_temp_plot_colored <span class="ot">&lt;-</span>    <span class="fu">ggplot</span>(<span class="at">data =</span> airquality,        </span>
+<span id="cb55-3"><a href="#cb55-3"></a>                                     <span class="fu">aes</span>(<span class="at">x =</span> Solar.R, <span class="at">y =</span> Temp)) <span class="sc">+</span>   </span>
+<span id="cb55-4"><a href="#cb55-4"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">fill =</span> <span class="fu">factor</span>(Month)),              </span>
+<span id="cb55-5"><a href="#cb55-5"></a>             <span class="at">shape =</span> <span class="dv">21</span>,              </span>
+<span id="cb55-6"><a href="#cb55-6"></a>             <span class="at">color =</span> <span class="st">'black'</span>)  <span class="sc">+</span>   </span>
+<span id="cb55-7"><a href="#cb55-7"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Solar radiation (Langleys)'</span>,        </span>
+<span id="cb55-8"><a href="#cb55-8"></a>       <span class="at">y =</span> <span class="st">'Max. daily temp. (F)'</span>) <span class="sc">+</span>   </span>
+<span id="cb55-9"><a href="#cb55-9"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span>    </span>
+<span id="cb55-10"><a href="#cb55-10"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Purples"</span>,                       </span>
+<span id="cb55-11"><a href="#cb55-11"></a>                    <span class="at">name   =</span> <span class="st">'Month'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="more-on-aesthetics-3" class="slide level2">
+<h2>More on aesthetics</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1"></a>solar_temp_plot_colored </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="slides_files/figure-revealjs/unnamed-chunk-32-1.png" width="960" class="r-stretch"></section>
-<section id="small-multiples" class="slide level2">
+<img data-src="slides_files/figure-revealjs/unnamed-chunk-35-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="small-multiples" class="title-slide slide level1 center">
+<h1>Small multiples</h1>
+
+</section>
+<section id="small-multiples-1" class="slide level2">
 <h2>Small multiples</h2>
 <ul>
 <li>Group a plot by some categorical variable</li>
@@ -1106,40 +1247,49 @@
 <li>Avoids writing loops</li>
 </ul>
 </section>
-<section id="small-multiples-1" class="slide level2">
+<section id="small-multiples-2" class="slide level2 smaller">
 <h2>Small multiples</h2>
 <ul>
 <li>Repeat histogram for each value of Month, one per facet</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>ozone_hist <span class="sc">+</span> <span class="fu">facet_wrap</span>( <span class="sc">~</span> Month)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1"></a>ozone_hist <span class="sc">+</span> <span class="fu">facet_wrap</span>( <span class="sc">~</span> Month)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="slides_files/figure-revealjs/unnamed-chunk-33-1.png" width="960" class="r-stretch"></section>
-<section id="small-multiples-2" class="slide level2">
+<img data-src="slides_files/figure-revealjs/unnamed-chunk-36-1.png" width="960" class="r-stretch"></section>
+<section id="small-multiples-3" class="slide level2 smaller">
 <h2>Small multiples</h2>
 <p>We can also use facet_grid() to repeat the aesthetic and geometries for specified rows and cols variables</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="fu">library</span>(gapminder) </span>
-<span id="cb33-2"><a href="#cb33-2"></a><span class="fu">data</span>(gapminder)</span>
-<span id="cb33-3"><a href="#cb33-3"></a>gapminder_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> <span class="fu">subset</span>(gapminder, year <span class="sc">&gt;=</span> <span class="dv">1992</span>),        </span>
-<span id="cb33-4"><a href="#cb33-4"></a>                            <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap<span class="sc">/</span><span class="fl">1e3</span>,</span>
-<span id="cb33-5"><a href="#cb33-5"></a>                                <span class="at">y =</span> lifeExp)) <span class="sc">+</span>      </span>
-<span id="cb33-6"><a href="#cb33-6"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span>     </span>
-<span id="cb33-7"><a href="#cb33-7"></a>  <span class="fu">facet_grid</span>(<span class="at">rows =</span> <span class="fu">vars</span>(year),                 </span>
-<span id="cb33-8"><a href="#cb33-8"></a>             <span class="at">cols =</span> <span class="fu">vars</span>(continent)) <span class="sc">+</span>     </span>
-<span id="cb33-9"><a href="#cb33-9"></a>  <span class="fu">scale_x_log10</span>(<span class="at">labels =</span> <span class="sc">~</span><span class="fu">sprintf</span>(<span class="st">"%g"</span>, .)) <span class="sc">+</span>   </span>
-<span id="cb33-10"><a href="#cb33-10"></a>  <span class="fu">xlab</span>(<span class="st">"GDP per capita ($k)"</span>) <span class="sc">+</span>   </span>
-<span id="cb33-11"><a href="#cb33-11"></a>  <span class="fu">ylab</span>(<span class="st">"Life expectancy at birth (years)"</span>) <span class="sc">+</span>   </span>
-<span id="cb33-12"><a href="#cb33-12"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span>   </span>
-<span id="cb33-13"><a href="#cb33-13"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1"></a><span class="fu">library</span>(gapminder) </span>
+<span id="cb58-2"><a href="#cb58-2"></a><span class="fu">data</span>(gapminder)</span>
+<span id="cb58-3"><a href="#cb58-3"></a></span>
+<span id="cb58-4"><a href="#cb58-4"></a>gapminder_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> <span class="fu">subset</span>(gapminder, year <span class="sc">&gt;=</span> <span class="dv">1992</span>),        </span>
+<span id="cb58-5"><a href="#cb58-5"></a>                            <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap<span class="sc">/</span><span class="fl">1e3</span>,</span>
+<span id="cb58-6"><a href="#cb58-6"></a>                                <span class="at">y =</span> lifeExp)) <span class="sc">+</span>      </span>
+<span id="cb58-7"><a href="#cb58-7"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span>     </span>
+<span id="cb58-8"><a href="#cb58-8"></a>  <span class="fu">facet_grid</span>(<span class="at">rows =</span> <span class="fu">vars</span>(year),                 </span>
+<span id="cb58-9"><a href="#cb58-9"></a>             <span class="at">cols =</span> <span class="fu">vars</span>(continent)) <span class="sc">+</span>     </span>
+<span id="cb58-10"><a href="#cb58-10"></a>  <span class="fu">scale_x_log10</span>(<span class="at">labels =</span> <span class="sc">~</span><span class="fu">sprintf</span>(<span class="st">"%g"</span>, .)) <span class="sc">+</span>   </span>
+<span id="cb58-11"><a href="#cb58-11"></a>  <span class="fu">xlab</span>(<span class="st">"GDP per capita ($k)"</span>) <span class="sc">+</span>   </span>
+<span id="cb58-12"><a href="#cb58-12"></a>  <span class="fu">ylab</span>(<span class="st">"Life expectancy at birth (years)"</span>) <span class="sc">+</span>   </span>
+<span id="cb58-13"><a href="#cb58-13"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span>   </span>
+<span id="cb58-14"><a href="#cb58-14"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="small-multiples-4" class="slide level2 smaller">
+<h2>Small multiples</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>gapminder_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1"></a>gapminder_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="slides_files/figure-revealjs/unnamed-chunk-35-1.png" width="960" class="r-stretch"></section>
-<section id="summary-2" class="slide level2">
+<img data-src="slides_files/figure-revealjs/unnamed-chunk-38-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="summary-3" class="title-slide slide level1 center">
+<h1>Summary</h1>
+
+</section>
+<section id="summary-4" class="slide level2">
 <h2>Summary</h2>
 <ul>
 <li>We make graphs to tell a story with data</li>
@@ -1148,14 +1298,19 @@
 <li>geometric objects</li>
 <li>axis scales</li>
 <li>coordinate systems (linear or logarithmic scale, 2D, 3D, etc.)</li>
-<li>annotations (e.g.&nbsp;heading in small multiples) Summary</li>
+<li>annotations (e.g.&nbsp;heading in small multiples)</li>
+</ul>
+</section>
+<section id="summary-5" class="slide level2">
+<h2>Summary</h2>
+<ul>
 <li>Successively building a plot with a grammar of graphics allows development of complex plots from simple elements and small changes</li>
 <li>Choose a plotting geometry that helps tell the story</li>
 <li>Meaningful labels remove ambiguity and confusion</li>
 <li>Be careful not to put too much in</li>
 </ul>
 </section>
-<section id="further-reading" class="slide level2">
+<section id="further-reading" class="slide level2 smaller">
 <h2>Further reading</h2>
 <p>The #r4ds community have TidyTuesday which makes use of the ideas in Wickham and Grolemund (2017)</p>
 <ul>
@@ -1168,7 +1323,7 @@
 <li>Chang (2017)</li>
 </ul>
 </section>
-<section id="references" class="slide level2">
+<section id="references" class="slide level2 smaller">
 <h2>References</h2>
 <p>Chang, Winston. 2017. R Graphics Cookbook: Practical Recipes for Visualizing Data. 2nd ed.&nbsp;O’Reilly Media. http://www.cookbook-r.com/Graphs/.</p>
 <p>Friendly, M. 2005. “Milestones in the History of Data Visualization: A Case Study in Statistical Historiography.” In Classification: The Ubiquitous Challenge, edited by C. Weihs and W. Gaul, 34–52. New York: Springer. http://www.math.yorku.ca/SCS/Papers/gfkl.pdf.</p>
@@ -1179,7 +1334,7 @@
 <img src="../images/LSHTM_Logo_Black.png" class="slide-logo r-stretch"><div class="footer footer-default">
 
 </div>
-</section>
+</section></section>
     </div>
   </div>
 
@@ -1190,6 +1345,7 @@
   <script src="slides_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
   <script src="slides_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
   <script src="slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
   <script src="slides_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
@@ -1205,13 +1361,14 @@
       // https://revealjs.com/config/
       Reveal.initialize({
 'controlsAuto': true,
-'previewLinksAuto': false,
+'previewLinksAuto': true,
 'smaller': false,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
-'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":false},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -1357,9 +1514,9 @@
         // The "normal" size of the presentation, aspect ratio will be preserved
         // when the presentation is scaled to fit different resolutions. Can be
         // specified using percentage units.
-        width: 1600,
+        width: 1050,
 
-        height: 900,
+        height: 700,
 
         // Factor of the display size that should remain empty around the content
         margin: 0.1,
@@ -1382,7 +1539,7 @@
         },
 
         // reveal.js plugins
-        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
 
           RevealMath,
           RevealNotes,
