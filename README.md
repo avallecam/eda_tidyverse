@@ -1,10 +1,6 @@
 # R for Research: Exploratory Data Analysis using `ggplot2` and the `tidyverse`
 
-<<<<<<< HEAD
 An LSHTM Talent and Educational Development module introducing the `ggplot2` package for data visualisation and other packages in the `tidyverse` for data manipulation.
-=======
-A LSHTM Talent and Educational Development module introducing the `ggplot2` package for data visualisation and other packages in the `tidyverse` for data manipulation.
->>>>>>> 78eb62dc197873bc7e8fb6093f562595936915ea
 
 The slides can be found in `slides/`
 
