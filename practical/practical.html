@@ -391,54 +391,19 @@ problems. You may find it useful to look at the RStudio cheatsheets
 particular graphical ideas. Another good resource is “R for Data
 Science” (Wickham and Grolemund 2017), particularly Chapter 3, “Data
 Visualisation,” and Chapter 7, “Exploratory Data Analysis”.</p>
+</div>
+<div id="getting-started" class="section level3">
+<h3>Getting started</h3>
 <p>Download the material you need for the prac by browsing to the git
 repository at <a href="https://github.com/bquilty25/eda_tidyverse" class="uri">https://github.com/bquilty25/eda_tidyverse</a> and
 downloading the zip file. Unzip the file somewhere sensible, then open
 the R project file in RStudio.</p>
-<p>Work through the <code>eda_gestation.R</code> script adding your
-solutions under the comments that describe the questions. Ensure you
-regularly commit and push your changes, with descriptive comments, after
-finishing each activity.</p>
+<p>Work through the <code>eda_gestation.Rmd</code> script, updating the
+code chunks so that they work by replacing the <code>...</code> parts
+with correct code. Make sure to comment on what you are doing, and
+explain the output below each chunk as you would in a results section of
+a paper.</p>
 </div>
-</div>
-<div id="assumed-skills" class="section level2">
-<h2>Assumed skills</h2>
-<ul>
-<li>Writing R code into a script file</li>
-<li>Familiarity with data frames and spreadsheet-style data</li>
-<li>Understanding of summary statistics</li>
-</ul>
-</div>
-<div id="learning-objectives" class="section level2">
-<h2>Learning objectives</h2>
-<ul>
-<li>Reshaping data</li>
-<li>Calculating summary statistics for grouped data without using
-loops</li>
-<li>Creating a graph using a layered grammar of graphics</li>
-<li>Being able to critique a graph that you have created</li>
-</ul>
-</div>
-<div id="professional-skills" class="section level2">
-<h2>Professional skills</h2>
-<ul>
-<li>Using a git version control system</li>
-<li>Creating exploratory graphics which are reproducible and clear</li>
-<li>Documenting code by commenting</li>
-</ul>
-</div>
-<div id="a-reminder-of-expectations-in-the-prac" class="section level2">
-<h2>A reminder of expectations in the prac:</h2>
-<ul>
-<li>Keep a record of the work being completed with a well-commented R
-script</li>
-<li>Allow everyone a chance to participate in the learning activities,
-keeping disruption of other students to a minimum while still allowing
-for fruitful discussion</li>
-<li>All opinions are valued provided they do not harm others</li>
-<li>Everyone is expected to do the work, learning seldom occurs solely
-by watching someone else do work</li>
-</ul>
 </div>
 <div id="activity-1---quick-look-at-the-data" class="section level2">
 <h2>Activity 1 - Quick look at the data</h2>
@@ -464,28 +429,27 @@ key-value representation of the data.</p>
 <div id="activity-4---extension-activities" class="section level2">
 <h2>Activity 4 - Extension activities</h2>
 <p>These activities increase in level of difficulty. You are not
-expected to do all of them, but it’s suggested that you attempt at least
-one of them during class time. Feel free to discuss your approach with
-other students in the group.</p>
+expected to do all of them, but give them a try. Feel free to discuss
+your approach with others.</p>
 </div>
 <div id="activity-5---visualisation-of-the-fev1-data" class="section level2">
 <h2>Activity 5 - Visualisation of the FEV1 data</h2>
 <p>Open the <code>vis_fev1.R</code> script in the R folder of the R
 project</p>
-<p>On one person’s computer, build a plot that shows the relationship
-between FEV1 and age. Commit and push the results up. Have all others in
-the group pull the changes from the repository.</p>
+<p>Build a plot that shows the relationship between FEV1 and age.</p>
 <p><strong>Question:</strong> Given the strength of the linear
 association between these two variables, do you think a linear trend
 would be an appropriate model?</p>
-<p>## Activity 6 - Improving the plot</p>
+</div>
+<div id="activity-6---improving-the-plot" class="section level2">
+<h2>Activity 6 - Improving the plot</h2>
 <p>You may wish to save the plot object in Activity 5 and add to it,
 continuing to do so from here on, or copy-paste the code and modify
 it.</p>
-<p>On another person’s computer, add meaningful labels for the x and y
-axes, including units, and change the plot’s colour theme from the
-default. You may want to consult the suggested reading or search online
-for the included ggplot2 theme choices.</p>
+<p>Add meaningful labels for the x and y axes, including units, and
+change the plot’s colour theme from the default. You may want to consult
+the suggested reading or search online for the included ggplot2 theme
+choices.</p>
 <p>Add a smooth line of best fit to the plot. You may wish to change its
 colour, turn off the standard error ribbon, or make other changes to it
 to help show the data and improve contrast with the background colour of
@@ -494,13 +458,6 @@ Grosse, and Shyu 1992) which can be set with
 <code>method = &#39;loess&#39;</code> as an argument to
 <code>geom_smooth()</code>. You could also use a generalised additive
 model (Wood 2017) with <code>method = &#39;mgcv&#39;</code>.</p>
-<p>Push these changes up and have everyone else pull them down</p>
-<p>.</p>
-</div>
-<div id="activity-7---collaborative-activities" class="section level2">
-<h2>Activity 7 - Collaborative activities</h2>
-<p>Between you and your group, divide up the following activities so
-that each of you is working on one (you may need to double up).</p>
 <div id="activity-7a---showing-structure" class="section level3">
 <h3>Activity 7a - Showing structure</h3>
 <p>We have repeat measurements on 20 individuals. Through either small
@@ -551,9 +508,8 @@ can add to it using the grammar of graphics.</p>
 </div>
 <div id="activity-7f---accounting-for-repeat-measurement" class="section level3">
 <h3>Activity 7f - Accounting for repeat measurement</h3>
-<p>This is the most difficult task, should probably only be attempted by
-discussion within the group and requires the use of the mgcv package
-(Wood 2017).</p>
+<p>This is the most difficult task, and requires the use of the mgcv
+package (Wood 2017). Work with others if you get stuck.</p>
 <p>Build a regression model for the change in FEV1 with age that
 accounts for repeat measurement of individuals. Making use of the mgcv
 package in R (Wood 2017), we can fit a mixed effects model that uses a
@@ -565,12 +521,11 @@ for the differences in baseline FEV1 across individuals using the
 prediction data frame, make sure that you give the predicted values the
 name FEV1 so you can reuse the aesthetics from the base plot.</p>
 </div>
+<div id="tidying-up" class="section level3">
+<h3>Tidying up</h3>
+<p>Once you have working code, knit the R Markdown document to HTML and
+save it in the <code>docs</code> folder.</p>
 </div>
-<div id="tidy-up" class="section level2">
-<h2>Tidy up</h2>
-<p>Make sure you have saved your R script. Ensure that you have
-committed and pushed all your changes up to the shared remote repository
-and that you have pulled others’ changes.</p>
 </div>
 <div id="further-reading" class="section level2">
 <h2>Further reading</h2>

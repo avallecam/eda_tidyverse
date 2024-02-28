@@ -10,7 +10,8 @@
 <link href="slides_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.3.433">
 
-  <title>Exploratory data analysis using the tidyverse and ggplot2</title>
+  <meta name="author" content="Billy Quilty, Kath Sherratt, Andree Valle Campos">
+  <title>R for Research: Exploratory data analysis using the tidyverse and ggplot2</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -397,9 +398,14 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Exploratory data analysis using the tidyverse and ggplot2</h1>
+  <h1 class="title">R for Research: Exploratory data analysis using the tidyverse and ggplot2</h1>
 
 <div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Billy Quilty, Kath Sherratt, Andree Valle Campos 
+</div>
+</div>
 </div>
 
 </section>
@@ -547,7 +553,7 @@
 <section id="summarising-grouped-data-2" class="slide level2">
 <h2>Summarising grouped data</h2>
 <ul>
-<li><code>summarise()</code> respects the grouping structure</li>
+<li><code>summarise()</code> respects the grouping structure, will calculate summaries for each group</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">summarise</span>(Gestation_grouped_by_race,           </span>
@@ -588,10 +594,10 @@
 <section id="summarising-data-6" class="slide level2">
 <h2>Summarising data</h2>
 <ul>
-<li>We can even do multiple summaries across multiple variables by specifying
+<li>We can even do multiple summaries across multiple variables by specifying:
 <ul>
 <li>which <code>.vars</code> we want to summarise, and</li>
-<li>a list of which z we wish to summarise with</li>
+<li>a list of which <code>.funs</code> we wish to summarise with</li>
 </ul></li>
 </ul>
 <div class="cell">
@@ -638,7 +644,7 @@
 <h2>Operating on columns</h2>
 <ul>
 <li>create/modify/delete columns with dplyr’s <code>mutate()</code></li>
-<li>e.g.&nbsp;relabelling <code>race</code> so words start with a capital</li>
+<li>e.g.&nbsp;relabelling race so words start with a capital</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>Gestation <span class="ot">&lt;-</span> <span class="fu">mutate</span>(Gestation, <span class="at">race =</span> <span class="fu">str_to_title</span>(race)) </span>
@@ -737,7 +743,7 @@
 <section id="choosing-rows" class="slide level2 smaller">
 <h2>Choosing rows</h2>
 <ul>
-<li>The dplyr equivalent of subset is filter</li>
+<li>The dplyr equivalent of <code>subset</code> is <code>filter</code></li>
 <li>Takes a logical statement and does non-standard evaluation of variable names</li>
 <li><code>filter(data, A &amp; B)</code> the same as <code>filter(data, A, B)</code></li>
 </ul>
@@ -964,7 +970,7 @@
 </ul></li>
 <li>Pipe
 <ul>
-<li>%&gt;% to chain operations</li>
+<li><code>%\&gt;%</code> to chain operations</li>
 </ul></li>
 <li>Wickham (2014) on what tidy data is</li>
 <li>Wickham et al.&nbsp;(2019) for more explanation of tidyverse</li>
@@ -1000,10 +1006,10 @@
 <li>careful use of whitespace</li>
 </ul></li>
 <li>Avoid excessive and unnecessary use of graphical effects</li>
-<li>Reader should be able to understand what the graph means and not be
+<li>Reader should be able to understand what the graph means and not be:
 <ul>
-<li>misled into thinking something that is untrue</li>
-<li>distracted from the main point</li>
+<li>misled into thinking something that is untrue,</li>
+<li>or distracted from the main point</li>
 </ul></li>
 </ul>
 </section>
@@ -1014,7 +1020,7 @@
 <li>map variables in data frame to aesthetic options in the plot</li>
 <li>choose a geometry for how to display these variables</li>
 <li>adjustments to axis scales</li>
-<li>adjustments to colors, themes, etc.</li>
+<li>adjustments to colours, themes, etc.</li>
 <li>adding extra commands in a ‘do this, then do this’ manner</li>
 <li>python users have plotnine (Kibirige 2020) which is based on the same ideas</li>
 </ul>
@@ -1216,11 +1222,11 @@
 <h2>More on aesthetics</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1"></a><span class="fu">data</span>(airquality) </span>
-<span id="cb55-2"><a href="#cb55-2"></a>solar_temp_plot_colored <span class="ot">&lt;-</span>    <span class="fu">ggplot</span>(<span class="at">data =</span> airquality,        </span>
+<span id="cb55-2"><a href="#cb55-2"></a>solar_temp_plot_coloured <span class="ot">&lt;-</span>    <span class="fu">ggplot</span>(<span class="at">data =</span> airquality,        </span>
 <span id="cb55-3"><a href="#cb55-3"></a>                                     <span class="fu">aes</span>(<span class="at">x =</span> Solar.R, <span class="at">y =</span> Temp)) <span class="sc">+</span>   </span>
 <span id="cb55-4"><a href="#cb55-4"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">fill =</span> <span class="fu">factor</span>(Month)),              </span>
 <span id="cb55-5"><a href="#cb55-5"></a>             <span class="at">shape =</span> <span class="dv">21</span>,              </span>
-<span id="cb55-6"><a href="#cb55-6"></a>             <span class="at">color =</span> <span class="st">'black'</span>)  <span class="sc">+</span>   </span>
+<span id="cb55-6"><a href="#cb55-6"></a>             <span class="at">colour =</span> <span class="st">'black'</span>)  <span class="sc">+</span>   </span>
 <span id="cb55-7"><a href="#cb55-7"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Solar radiation (Langleys)'</span>,        </span>
 <span id="cb55-8"><a href="#cb55-8"></a>       <span class="at">y =</span> <span class="st">'Max. daily temp. (F)'</span>) <span class="sc">+</span>   </span>
 <span id="cb55-9"><a href="#cb55-9"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span>    </span>
@@ -1231,7 +1237,7 @@
 <section id="more-on-aesthetics-3" class="slide level2">
 <h2>More on aesthetics</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1"></a>solar_temp_plot_colored </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1"></a>solar_temp_plot_coloured </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="slides_files/figure-revealjs/unnamed-chunk-35-1.png" width="960" class="r-stretch"></section></section>
@@ -1265,7 +1271,7 @@
 <img data-src="slides_files/figure-revealjs/unnamed-chunk-36-1.png" width="960" class="r-stretch"></section>
 <section id="small-multiples-3" class="slide level2 smaller">
 <h2>Small multiples</h2>
-<p>We can also use facet_grid() to repeat the aesthetic and geometries for specified rows and cols variables</p>
+<p>We can also use <code>facet_grid()</code> to repeat the aesthetic and geometries for specified rows and cols variables</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1"></a><span class="fu">library</span>(gapminder) </span>
 <span id="cb58-2"><a href="#cb58-2"></a><span class="fu">data</span>(gapminder)</span>
@@ -1368,14 +1374,14 @@
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': true,
-'smaller': true,
+'smaller': false,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'chalkboard': {"buttons":false},
-'smaller': true,
+'smaller': false,
  
         // Display controls in the bottom right corner
         controls: false,

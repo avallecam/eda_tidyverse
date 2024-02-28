@@ -1,8 +1,8 @@
 ---
-title: "Exploratory data analysis using the tidyverse and ggplot2"
+title: "R for Research: Exploratory data analysis using the tidyverse and ggplot2"
+author: "Billy Quilty, Kath Sherratt, Andree Valle Campos"
 format: 
  revealjs:
-   smaller: true
    theme: default
    slide-number: true
    chalkboard: 
@@ -106,7 +106,7 @@ Gestation_grouped_by_race
 
 ## Summarising grouped data
 
--   `summarise()` respects the grouping structure
+-   `summarise()` respects the grouping structure, will calculate summaries for each group
 
 ```{r, echo=TRUE, eval=TRUE} 
 summarise(Gestation_grouped_by_race,           
@@ -128,9 +128,9 @@ summarise_at(Gestation,
 
 ## Summarising data
 
--   We can even do multiple summaries across multiple variables by specifying
+-   We can even do multiple summaries across multiple variables by specifying:
     -   which `.vars` we want to summarise, and
-    -   a list of which z we wish to summarise with
+    -   a list of which `.funs` we wish to summarise with
 
 ```{r, echo=TRUE, eval=TRUE}
 summarise_at(Gestation,  
@@ -154,7 +154,7 @@ summarise_at(Gestation_grouped_by_race,
 ## Operating on columns
 
 -   create/modify/delete columns with dplyr's `mutate()`
--   e.g. relabelling `race` so words start with a capital
+-   e.g. relabelling race so words start with a capital
 
 ```{r, echo=TRUE, eval=TRUE}
 Gestation <- mutate(Gestation, race = str_to_title(race)) 
@@ -202,7 +202,7 @@ names(Gestation)
 
 ## Choosing rows {.smaller}
 
--   The dplyr equivalent of subset is filter
+-   The dplyr equivalent of `subset` is `filter`
 -   Takes a logical statement and does non-standard evaluation of variable names
 -   `filter(data, A & B)` the same as `filter(data, A, B)`
 
@@ -340,7 +340,7 @@ Gestation %>%
     -   `filter` to choose rows based on logical condition
     -   `slice\*` to choose rows based on position or property
 -   Pipe
-    -   %\>% to chain operations
+    -   `%\>%` to chain operations
 -   Wickham (2014) on what tidy data is
 -   Wickham et al. (2019) for more explanation of tidyverse
 
@@ -368,9 +368,9 @@ Tufte (1983) and Pantoliano (2012)
     -   make every drop of ink count
     -   careful use of whitespace
 -   Avoid excessive and unnecessary use of graphical effects
--   Reader should be able to understand what the graph means and not be
-    -   misled into thinking something that is untrue
-    -   distracted from the main point
+-   Reader should be able to understand what the graph means and not be:
+    -   misled into thinking something that is untrue,
+    -   or distracted from the main point
 
 ## Building plots
 
@@ -378,7 +378,7 @@ Tufte (1983) and Pantoliano (2012)
 -   map variables in data frame to aesthetic options in the plot
 -   choose a geometry for how to display these variables
 -   adjustments to axis scales
--   adjustments to colors, themes, etc.
+-   adjustments to colours, themes, etc.
 -   adding extra commands in a 'do this, then do this' manner
 -   python users have plotnine (Kibirige 2020) which is based on the same ideas
 
@@ -539,11 +539,11 @@ ozone_dens
 
 ```{r, echo=TRUE, eval=TRUE}
 data(airquality) 
-solar_temp_plot_colored <-    ggplot(data = airquality,        
+solar_temp_plot_coloured <-    ggplot(data = airquality,        
                                      aes(x = Solar.R, y = Temp)) +   
   geom_point(aes(fill = factor(Month)),              
              shape = 21,              
-             color = 'black')  +   
+             colour = 'black')  +   
   labs(x = 'Solar radiation (Langleys)',        
        y = 'Max. daily temp. (F)') +   
   theme_bw() +    
@@ -554,7 +554,7 @@ solar_temp_plot_colored <-    ggplot(data = airquality,
 ## More on aesthetics
 
 ```{r, echo=TRUE, eval=TRUE}
-solar_temp_plot_colored 
+solar_temp_plot_coloured 
 ```
 
 # Small multiples
@@ -581,7 +581,7 @@ ozone_hist + facet_wrap( ~ Month)
 
 ## Small multiples {.smaller}
 
-We can also use facet_grid() to repeat the aesthetic and geometries for specified rows and cols variables
+We can also use `facet_grid()` to repeat the aesthetic and geometries for specified rows and cols variables
 
 ```{r, echo=TRUE, eval=TRUE}
 library(gapminder) 

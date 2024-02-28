@@ -59,6 +59,8 @@ mean_age_by_race <- Gestation %>%
 ### Activity 4a - Correlation
 Calculate the correlation between age and weight across all births, then calculate the correlation between age and weight for each race.
 ```{r activity4a, echo=TRUE}
+library(magrittr)
+Gestation %<>% drop_na()
 correlation_all <- cor(...)
 
 correlation_by_race <- Gestation %>%

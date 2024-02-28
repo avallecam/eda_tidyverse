@@ -2,7 +2,7 @@
 
 An LSHTM Talent and Educational Development module introducing the `ggplot2` package for data visualisation and other packages in the `tidyverse` for data manipulation.
 
-The slides can be found in `slides/`
+The slides can be found in `slides/`.
 
 The practical instructions can be found in `practicals/`.
 
