@@ -1,0 +1,649 @@
+---
+title: "R for Research: Exploratory data analysis using the tidyverse and ggplot2"
+author: "Billy Quilty, Kath Sherratt, Andree Valle Campos"
+format: 
+ revealjs:
+   theme: default
+   slide-number: true
+   chalkboard: 
+      buttons: false
+   preview-links: auto
+   logo: ../images/LSHTM_Logo_Black.png
+   include-in-header:
+     - text: |
+         <style>
+         .reveal .slide-logo {
+           max-height: unset;
+           height: 100px;
+         }
+         </style>
+---
+
+```{r, include=FALSE}
+library(mosaicData)
+library(tidyverse)
+library(gapminder)
+```
+
+# Introduction
+
+## What is the tidyverse?
+
+A suite of R packages to make working with data as easy as possible (Wickham 2020), including: 
+
+-  ggplot2: for plotting data 
+-  dplyr: for manipulating data frames 
+-  tidyr: for making data tidy 
+-  forcats: for manipulating factor variables 
+-  magrittr: for easy chaining of commands 
+
+(Wickham and Grolemund 2017; Wickham et al. 2019)
+
+# Summarising data
+
+## Summarising data {.smaller}
+
+-   Summary statistics one of most common data analysis tasks
+-   Consider the `Gestation` data from `mosaicData` 
+
+Birth weight, date, and gestational period collected as part of the Child Health and Development Studies in 1961 and 1962. Information about the baby's parents --- age, education, height, weight, and whether the mother smoked is also recorded (Nolan and Speed 2001).
+
+-   We will use some functions from dplyr to choose, group and summarise data
+-   `verb(.data, ...)` applies a dplyr verb to a data frame
+
+## Summarising data
+
+-   count how many babies in data set
+
+```{r, echo=TRUE, eval=TRUE}
+library(mosaicData) 
+library(tidyverse) 
+
+data(Gestation) 
+count(Gestation) # just like nrow() 
+```
+
+## Summarising grouped data
+
+-   Can also count for a given grouping variable
+
+```{r, echo=TRUE, eval=TRUE}
+count(Gestation, race) # nrow can't do this 
+```
+
+## Summarising data
+
+-   The summarise function allows us to calculate summary statistics of a variable
+-   Can (and should) give names to summary columns
+-   Calculate the mean birth weight in the data set
+
+```{r, echo=TRUE, eval=TRUE}
+summarise(Gestation, wt_mean = mean(wt)) 
+```
+
+## Summarising data
+
+-   We can calculate multiple summaries at once
+
+```{r, echo=TRUE, eval=TRUE}
+summarise(Gestation,           
+          Mean = mean(wt), 
+          SD   = sd(wt), 
+          Low  = quantile(wt, 0.025), 
+          High = quantile(wt, 0.975)) 
+```
+
+## Summarising grouped data {.smaller}
+
+-   We can group the rows in our data and calculate summaries for each group
+-   `group_by` lets us pass variable names to set the structure
+-   Row order is maintained
+
+```{r, echo=TRUE, eval=TRUE}
+Gestation_grouped_by_race <- group_by(Gestation, race) 
+Gestation_grouped_by_race 
+```
+
+## Summarising grouped data
+
+-   `summarise()` respects the grouping structure, will calculate summaries for each group
+
+```{r, echo=TRUE, eval=TRUE} 
+summarise(Gestation_grouped_by_race,           
+          Mean = mean(wt), 
+          SD   = sd(wt), 
+          Low  = quantile(wt, 0.025), 
+          High = quantile(wt, 0.975)) 
+```
+
+## Summarising data
+
+-   We can summarise multiple variables (`.vars)` with the same function(s) (`.funs`)
+
+```{r, echo=TRUE, eval=TRUE}
+summarise_at(Gestation,  
+             .vars = vars(gestation, wt, age), 
+             .funs = mean, na.rm = T) 
+```
+
+## Summarising data
+
+-   We can even do multiple summaries across multiple variables by specifying:
+    -   which `.vars` we want to summarise, and
+    -   a list of which `.funs` we wish to summarise with
+
+```{r, echo=TRUE, eval=TRUE}
+summarise_at(Gestation,  
+             .vars = vars(gestation, wt, age),
+             .funs = list(mean = mean,sd = sd), 
+             na.rm = T) 
+```
+
+## Summarising grouepd data
+
+-   All `summarise\*()` respects the grouping structure
+
+```{r, echo=TRUE, eval=TRUE}
+summarise_at(Gestation_grouped_by_race, 
+             .vars = vars(gestation, wt, age), 
+             .funs = list(mean = mean), na.rm = T) 
+```
+
+# Rows and columns
+
+## Operating on columns
+
+-   create/modify/delete columns with dplyr's `mutate()`
+-   e.g. relabelling race so words start with a capital
+
+```{r, echo=TRUE, eval=TRUE}
+Gestation <- mutate(Gestation, race = str_to_title(race)) 
+count(Gestation, race) 
+```
+
+## Choosing columns {.smaller}
+
+-   For one reason or another we may want to select only certain columns of our data frame
+
+```{r, echo=TRUE, eval=TRUE}
+head(Gestation, 1)
+head(select(Gestation, race, wt, number), 1)
+```
+
+## Choosing and renaming columns
+
+-   We can also rename columns on the fly as we select them
+
+```{r, echo=TRUE, eval=TRUE}
+select(Gestation, 
+       Race                = race,  
+       `Birthweight (oz)`  = wt,                                   
+       Cigs.smoked         = number) 
+```
+
+## Choosing and renaming columns
+
+-   Alternatively we can rename columns without worrying about failing to select columns we haven't renamed
+
+```{r, echo=FALSE, eval=TRUE}
+rm(Gestation)
+data(Gestation)
+Gestation <- mutate(Gestation, race = str_to_title(race)) 
+
+```
+
+```{r, echo=TRUE, eval=TRUE}
+names(Gestation)
+
+Gestation <- rename(Gestation, Cigs.smoked = number)
+
+names(Gestation)
+```
+
+## Choosing rows {.smaller}
+
+-   The dplyr equivalent of `subset` is `filter`
+-   Takes a logical statement and does non-standard evaluation of variable names
+-   `filter(data, A & B)` the same as `filter(data, A, B)`
+
+```{r, echo=FALSE, eval=TRUE}
+rm(Gestation)
+data(Gestation)
+Gestation <- mutate(Gestation, race = str_to_title(race)) 
+
+```
+
+```{r, echo=TRUE, eval=TRUE}
+Gestation2 <- select(Gestation, 
+                     Race                = race,  
+                     `Birthweight (oz)`  = wt,                                   
+                     Cigs.smoked         = number) 
+filter(Gestation2, Race == "White", Cigs.smoked == "never") 
+```
+
+## Choosing rows {.smaller}
+
+-   `slice\*()` functions allow you to select rows based on their properties, e.g. which babies have lowest birth weight overall and in each race group?
+
+```{r, echo=TRUE, eval=TRUE}
+slice_min(Gestation2, `Birthweight (oz)`) 
+slice_min(group_by(Gestation2, Race), `Birthweight (oz)`) 
+```
+
+# Reshaping data frames
+
+## Long and wide tidy data
+
+-   Tidy data frames consist of a number of observations (rows) of variables (columns), they can be either wide or long (Wickham 2014)
+-   We can pivot between wide and long format with tidyr's `pivot\_\*()` functions
+-   Pivoting to a longer data frame helps put data in key-value pairs, useful for ggplot2
+-   The value is the value of the named variable for a given id
+
+## Long and wide tidy data
+
+To make this pivot, we specify 
+
+-   which cols are to be converted from being `k` columns of length `n` to one column of length `n×k`
+-   the `names_to` column name, which contains the names of the pivoted columns 
+-   the `values_to` name of the column containing the value of each variable for each `id`
+
+## Long and wide tidy data
+
+```{r, echo=TRUE, eval=TRUE}
+Gestation_igwa <- select(Gestation, id, gestation, wt, age) 
+Gestation_long <- pivot_longer(   data            = Gestation_igwa,   
+                                  cols            = c(gestation, wt, age),    
+                                  names_to        = "name",    
+                                  values_to       = "value") 
+head(Gestation_long, 6)
+```
+
+-   NB: we need to use "" quotes for `names_to` and `values_to` arguments because they are strings defining new columns
+
+## Long and wide tidy data
+
+```{r, echo=TRUE, eval=TRUE}
+Gestation_long <- pivot_longer(Gestation_igwa, -id) 
+head(Gestation_long, 6) 
+```
+
+Or specify which columns not to pivot, e.g. `-id` selects all variables except `id`
+
+## Long and wide tidy data {.smaller}
+
+-   To convert to a wider format, we use `pivot_wider`
+-   For example, we specify:
+    -   the data source
+    -   where we get the new column names from
+    -   where we get the new column values from
+
+```{r, echo=TRUE, eval=TRUE}
+Gestation_wide <- pivot_wider(data = Gestation_long,          
+                              names_from  = name,
+                              values_from = value) 
+
+head(Gestation_wide, 3) 
+```
+
+## Pipe {.smaller}
+
+-   dplyr imports the `%\>%` pipe from magrittr
+
+-   `f(g(x))` is equivalent to `x %\>% g %\>% f`
+
+-   Makes it easier to chain operations together without storing temporary objects
+
+-   Output on left of `%\>%` becomes first argument of function on right
+
+-   by convention, all tidyverse functions take a data frame as their first argument
+
+```{r, echo=TRUE, eval = FALSE}
+x %>% f_1 %>% f_2 %>% f_3
+# rather than f_3(f_2(f_1(x)))
+# or even worse... 
+x_1 <- f_1(x) 
+x_2 <- f_2(x_1) 
+x_3 <- f_3(x_2)
+```
+
+## Pipe {.smaller}
+
+-   An example
+
+```{r, echo=TRUE, eval=TRUE}
+Gestation %>% 
+  group_by(race, smoke) %>% 
+  summarise(wt = mean(wt)) %>% 
+  pivot_wider(names_from  = race,
+              values_from = wt)
+```
+
+-   NB the smoke variable is character and sorted alphabetically
+
+# Summary
+
+## Summary
+
+-   Summarising data
+    -   `group_by` to set a group structure
+    -   `summarise` to calculate summary stats across group structure
+    -   `count` to see how many rows in each group
+    -   Reshaping data frames
+        -   `pivot_longer` from variables side by side to key-value
+        -   `pivot_wider` from key-value to named column variables
+
+## Summary
+
+-   Dealing with rows and columns
+    -   `mutate` to create/modify/delete columns
+    -   `select` to choose columns
+    -   `filter` to choose rows based on logical condition
+    -   `slice\*` to choose rows based on position or property
+-   Pipe
+    -   `%\>%` to chain operations
+-   Wickham (2014) on what tidy data is
+-   Wickham et al. (2019) for more explanation of tidyverse
+
+# Visualisation with ggplot2
+
+## Why do we visualise?
+
+"Since the aim of exploratory data analysis is to learn what seems to be, it should be no surprise that pictures play a vital role in doing it well. There is nothing better than a picture for making you think of questions you had forgotten to ask (even mentally)." 
+
+Tukey and Tukey (1985)
+
+## Principles
+
+Tufte (1983) and Pantoliano (2012) 
+
+-   Show the data 
+-   Provide clarity 
+-   Allow comparison where appropriate 
+-   use aesthetics to draw attention to important details 
+-   make clear that data has multiple levels of structure
+
+## Principles
+
+-   Produce graphs with high data density
+    -   make every drop of ink count
+    -   careful use of whitespace
+-   Avoid excessive and unnecessary use of graphical effects
+-   Reader should be able to understand what the graph means and not be:
+    -   misled into thinking something that is untrue,
+    -   or distracted from the main point
+
+## Building plots
+
+-   ggplot2 uses a grammar of graphics (Wickham 2010)
+-   map variables in data frame to aesthetic options in the plot
+-   choose a geometry for how to display these variables
+-   adjustments to axis scales
+-   adjustments to colours, themes, etc.
+-   adding extra commands in a 'do this, then do this' manner
+-   python users have plotnine (Kibirige 2020) which is based on the same ideas
+
+## Building plots
+
+How do we structure a call to ggplot to make a plot?
+
+```{r, echo=TRUE, eval=FALSE}
+
+# library(ggplot2) # already loaded with tidyverse 
+ggplot(data = my.data.frame,
+       aes(x = my.x.variable, 
+           y = my.y.variable)) +   
+  geom_point()
+```
+
+-   load ggplot2 package
+-   Specify we want a ggplot object and which data frame we're going to use,
+-   Set aesthetic options to map to the x and y axes of the plot
+-   State geometry we're using to show variables
+
+## Building plots {.smaller}
+
+-   For example, consider daily maximum temperature varying with solar radiation in New York City 1973
+-   Each row is a pair of values (x, y), shown as a point
+
+```{r,eval=TRUE,echo=TRUE}
+
+data(airquality) 
+solar_temp_plot <- ggplot(data = airquality, aes(x = Solar.R, y = Temp)) + geom_point()  
+solar_temp_plot
+```
+
+## Scatter plot {.smaller}
+
+-   We can add some human-friendly labels and change the theme
+
+```{r}
+
+solar_temp_plot <- solar_temp_plot + theme_bw() + 
+  labs(x = 'Solar radiation (Langleys)', y = 'Max. daily temp. (F)')  
+solar_temp_plot
+```
+
+# Some more geometries
+
+## Line plot {.smaller}
+
+-   Similar to scatter plot, but joins pairs of values
+-   Useful when showing how something changes over time
+-   If (x, y) pairs ordered by
+-   x, use geom_line() (e.g. x is time)
+-   row order, use geom_path()
+-   nothing, don't use a line
+
+```{r,echo=T,eval=T}
+
+airquality <- mutate(airquality, Date = as.Date(paste('1973', Month, Day, sep = '-'))) 
+airquality_plot <- ggplot(data = airquality, aes(x=Date, y=Ozone)) +   
+  geom_line() + 
+  theme_bw() + 
+  labs(y     = 'Ozone concentration (ppb)',                                   
+       title = 'Daily mean Ozone in NYC (1973)')
+```
+
+## Line plot {.smaller}
+
+```{r echo=TRUE, eval=TRUE}
+airquality_plot
+```
+
+-   You may see this referred to as a time series plot
+
+## Line plot {.smaller}
+
+-   Observations whose neighbours are NA values can't be plotted with a line
+-   Can layer multiple geometries for same aesthetic mapping
+
+```{r, echo=TRUE, eval=TRUE}
+airquality_plot + 
+  geom_point()
+```
+
+## Scatterplot smoother {.smaller}
+
+-   Often too much data in a scatter plot to see pattern - Maybe we want to highlight the trend in the data
+
+```{r, echo=TRUE, eval=TRUE}
+airquality_plot + 
+  geom_point() + 
+  geom_smooth() 
+```
+
+## Boxplot {.smaller}
+
+-   continuous y, discrete x
+-   outliers (\> 1.5 IQR from median) shown as points automatically
+
+
+```{r, echo=TRUE, eval=TRUE}
+ggplot(data = airquality, aes(x = factor(Month), y = Ozone)) + 
+  geom_boxplot() + 
+  theme_bw() + 
+  labs(y = 'Ozone conc. (ppb)', x = 'Month')
+```
+
+## Histograms {.smaller}
+
+-   univariate graphical summary needs only one aesthetic, x
+
+```{r, echo=TRUE, eval=TRUE}
+ozone_hist <- ggplot(data = airquality, aes(x = Ozone)) +     
+  geom_histogram(binwidth = 10, boundary = 0) +     
+  labs(x = 'Ozone concentration (ppb)') + theme_bw() 
+ozone_hist
+```
+
+## Density plots {.smaller}
+
+-   Kernel smoothing (continuous analogue of histogram)
+
+```{r, echo=TRUE,eval=TRUE}
+ozone_dens <- ggplot(data = airquality, aes(x = Ozone)) +     
+  geom_density(fill = 'grey35') +     
+  labs(x = 'Ozone concentration (ppb)') + 
+  theme_bw() 
+ozone_dens
+```
+
+# More on aesthetics
+
+## More on aesthetics {.smaller}
+
+::::{.columns}
+
+:::{.column width="50%"}
+| Aesthetic | What it affects             |
+|-----------|-----------------------------|
+| size      | points, lines               |
+| shape     | points                      |
+| linetype  | lines                       |
+| colour    | points, lines, boundary     |
+| alpha     | transparency                |
+| fill      | interior                    |
+| group     | recreates geometry by group |
+:::
+
+:::{.column width="50%"}
+-   If these (except group) are outside aes() they fix the value for all parts of that geometry
+-   Aesthetics specified inside ggplot() are inherited by all geometries for that plot
+-   Not all geometries accept all aesthetics (e.g. geom_line() has no fill)
+-   Some point shapes admit a colour and a fill
+:::
+
+::::
+
+## More on aesthetics
+
+```{r, echo=TRUE, eval=TRUE}
+data(airquality) 
+solar_temp_plot_coloured <-    ggplot(data = airquality,        
+                                     aes(x = Solar.R, y = Temp)) +   
+  geom_point(aes(fill = factor(Month)),              
+             shape = 21,              
+             colour = 'black')  +   
+  labs(x = 'Solar radiation (Langleys)',        
+       y = 'Max. daily temp. (F)') +   
+  theme_bw() +    
+  scale_fill_brewer(palette = "Purples",                       
+                    name   = 'Month')
+```
+
+## More on aesthetics
+
+```{r, echo=TRUE, eval=TRUE}
+solar_temp_plot_coloured 
+```
+
+# Small multiples
+
+## Small multiples
+
+-   Group a plot by some categorical variable
+-   Repeat a basic graph for groups in the data
+-   air quality data has information about, e.g. months
+-   Can view 3-5 dimensions in the data on a 2D page
+-   Often a better alternative to 3D, since it doesn't distort comparisons
+-   Inner axes relate to the smallest X-Y plots
+-   Outer axes relate to the grouping variables
+-   Avoids writing loops
+
+## Small multiples {.smaller}
+
+-   Repeat histogram for each value of Month, one per facet
+
+```{r, echo=TRUE, eval=TRUE}
+
+ozone_hist + facet_wrap( ~ Month)
+```
+
+## Small multiples {.smaller}
+
+We can also use `facet_grid()` to repeat the aesthetic and geometries for specified rows and cols variables
+
+```{r, echo=TRUE, eval=TRUE}
+library(gapminder) 
+data(gapminder)
+
+gapminder_plot <- ggplot(data = subset(gapminder, year >= 1992),        
+                            aes(x = gdpPercap/1e3,
+                                y = lifeExp)) +      
+  geom_point(shape = 1, size = 0.5) +     
+  facet_grid(rows = vars(year),                 
+             cols = vars(continent)) +     
+  scale_x_log10(labels = ~sprintf("%g", .)) +   
+  xlab("GDP per capita ($k)") +   
+  ylab("Life expectancy at birth (years)") +   
+  theme_bw() +   
+  theme(panel.grid.minor.x = element_blank())
+```
+
+## Small multiples {.smaller}
+
+```{r, echo=TRUE, eval=TRUE}
+gapminder_plot
+```
+
+# Summary
+
+## Summary
+
+-   We make graphs to tell a story with data
+-   Should draw reader in and explain what they're seeing
+-   Plots are built from
+-   geometric objects
+-   axis scales
+-   coordinate systems (linear or logarithmic scale, 2D, 3D, etc.)
+-   annotations (e.g. heading in small multiples) 
+
+## Summary
+-   Successively building a plot with a grammar of graphics allows development of complex plots from simple elements and small changes
+-   Choose a plotting geometry that helps tell the story
+-   Meaningful labels remove ambiguity and confusion
+-   Be careful not to put too much in
+
+## Further reading {.smaller}
+
+The #r4ds community have TidyTuesday which makes use of the ideas in Wickham and Grolemund (2017)
+
+-   History of visualisation
+-   Friendly (2005)
+-   Friendly (2006)
+-   Visualisation to help decision making - Tufte (1997)
+-   ggplot2 resources
+-   RStudio (2021)
+-   Chang (2017)
+
+## References {.smaller}
+
+Chang, Winston. 2017. R Graphics Cookbook: Practical Recipes for Visualizing Data. 2nd ed. O'Reilly Media. http://www.cookbook-r.com/Graphs/.
+
+Friendly, M. 2005. "Milestones in the History of Data Visualization: A Case Study in Statistical Historiography." In Classification: The Ubiquitous Challenge, edited by C. Weihs and W. Gaul, 34--52. New York: Springer. http://www.math.yorku.ca/SCS/Papers/gfkl.pdf.
+
+---------. 2006. "A Brief History of Data Visualization." In Handbook of Computational Statistics: Data Visualization, edited by C. Chen, W. Härdle, and A Unwin. Vol. III. Heidelberg: Springer-Verlag. http://www.datavis.ca/papers/hbook.pdf.
+
+Kibirige, Hassan. 2020. A Grammar of Graphics for Python. https://plotnine.readthedocs.io/en/stable/index.html.
+
+Nolan, Deborah, and Terry P Speed. 2001. Stat Labs: Mathematical Statistics Through Applications. Springer Science & Business Media. Pantoliano, Mike. 2012. "Data Visualization Principles: Lessons from Tufte." 2012. https://moz.com/blog/data-visualization-principles-lessons-fromtufte

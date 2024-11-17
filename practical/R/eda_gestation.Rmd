@@ -1,0 +1,100 @@
+---
+title: "Exploratory Data Analysis of Gestation data"
+author: "Your Name"
+date: "2024-02-23"
+output: html_document
+---
+
+# Exploratory Data Analysis of Gestation data
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(mosaicData)
+# if you don't have mosaicData, install it with install.packages("mosaicData")
+```
+
+```{r read_data, echo=TRUE}
+# read the data in
+data(Gestation)
+```
+
+## Activity 1 - Quick look at the data
+Calculate the number of observations in the data set, then calculate the number of observations per racial group and per racial group and level of mother's education.
+
+```{r activity1, echo=TRUE}
+# number of observations
+count(Gestation)
+
+count(Gestation, ...)
+
+Gestation_n_race_ed <- count(Gestation, ...)
+```
+
+## Activity 2 - Further summary statistics
+Calculate the mean age of mothers across all births. Ensure you use a human friendly name for the value you're creating.
+
+Then calculate both mothers' mean age and babies' mean weight
+
+```{r activity2, echo=TRUE}
+mean_age <- summarise(Gestation, `Mean age` = ...)
+
+
+summarise(Gestation, 
+          `Mean age` = ...,
+          `Mean wt`  = ...)
+```
+
+## Activity 3 - Grouped summaries
+Make a new data frame containing only id, age and race variables, then calculate the mean age of mothers by race.
+```{r activity3, echo=TRUE}
+age_race <- select(Gestation, ...)
+
+mean_age_by_race <- Gestation %>%
+  group_by(...) %>%
+  summarise(`Mean Age` = ...)
+```
+
+## Activity 4 - Extensions
+
+### Activity 4a - Correlation
+Calculate the correlation between age and weight across all births, then calculate the correlation between age and weight for each race.
+```{r activity4a, echo=TRUE}
+library(magrittr)
+Gestation %<>% drop_na()
+correlation_all <- cor(...)
+
+correlation_by_race <- Gestation %>%
+  group_by(...) %>%
+  summarise(correlation = cor(...))
+```
+
+### Activity 4b - Multiple summary statistics
+Calculate the sample mean of the ages and weights of the mothers in each race group
+```{r activity4b, echo=TRUE}
+mean_by_race <- Gestation %>%
+  group_by(race) %>%
+  summarise(mean_age = ..., mean_weight = ...)
+```
+
+### Activity 4c - Pivoting wider
+Make a wide table from the summary data frame calculated in Activity 1 that has the number of observations for each combination of mother's education level and race.
+Make each row is an education level and each column a race group.
+
+```{r activity4c, echo=TRUE}
+wide_summary <- Gestation_n_race_ed %>%
+  pivot_wider(names_from = ..., values_from = ..., values_fill = 0)
+```
+
+### Activity 4d - Multiple summary statistics
+Calculate the mean, standard deviation, minimum, maximum and proportion of values missing for the mothers' ages for each race group.
+Hint: you *can* use `summarise_at()` for this but you could also just `summarise()`
+```{r activity4d, echo=TRUE}
+
+summary_stats_age <- Gestation %>%
+  group_by(race) %>%
+  summarise(mean_age = ...,
+            sd_age = ...,
+            min_age = ...,
+            max_age = ...,
+            prop_missing = ...)
+```
